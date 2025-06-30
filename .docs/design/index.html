@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home | Waihei's Vibe Coding Lair</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.6.3"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-gray-900 text-white">
+    <div class="flex flex-col min-h-screen bg-gray-900 text-lg text-gray-300">
+      <!-- Header -->
+      <header class="bg-gray-900 border-b-4 border-black sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center">
+          <a href="index.html" class="text-center sm:text-left">
+            <h1 class="font-press-start text-xl md:text-2xl text-green-400 text-shadow hover:text-green-300 transition-colors">
+              Vibe Coding Lair
+            </h1>
+          </a>
+          <nav class="mt-4 sm:mt-0">
+            <ul class="flex space-x-4 md:space-x-6 text-lg">
+              <li><a href="index.html" class="hover:text-yellow-200 transition-colors" style="color: #fef08a; text-decoration: underline;">Home</a></li>
+              <li><a href="archive.html" class="hover:text-yellow-200 transition-colors">Archive</a></li>
+              <li><a href="about.html" class="hover:text-yellow-200 transition-colors">About</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+      
+      <!-- Main Content -->
+      <main class="flex-grow container mx-auto px-4 py-8">
+        <div class="space-y-12">
+            <div class="bg-slate-800 text-white border-4 border-black p-4 sm:p-6 shadow-[8px_8px_0_0_#1e293b] hover:shadow-[10px_10px_0_0_#1e293b] transition-all duration-200">
+                <div class="text-center">
+                    <h1 class="font-press-start text-2xl md:text-4xl text-green-400 text-shadow mb-4">
+                        <span>&gt; Welcome to the Lair</span><span class="blinking-cursor">_</span>
+                    </h1>
+                    <div class="animate-fade-in space-y-6">
+                        <p class="text-xl max-w-2xl mx-auto text-gray-300">
+                            This is the digital playground of わいへい (Waihei). I build games, explore AI, and write about 'Vibe Coding'.
+                        </p>
+                        <a href="https://example.com/my-awesome-browser-game" target="_blank" rel="noopener noreferrer" class="inline-block font-press-start text-lg bg-yellow-400 text-black px-8 py-4 border-4 border-black shadow-[6px_6px_0_0_#000] hover:shadow-[4px_4px_0_0_#000] hover:bg-yellow-300 active:shadow-none active:translate-x-1 active:translate-y-1 transition-all transform">
+                            Play My Game!
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="animate-fade-in">
+                <h2 class="font-press-start text-2xl text-yellow-300 mb-6 text-center text-shadow-sm">Latest Transmissions</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Post Card 1 -->
+                    <div class="bg-slate-800 text-white border-4 border-black p-4 sm:p-6 shadow-[8px_8px_0_0_#1e293b] hover:shadow-[10px_10px_0_0_#1e293b] transition-all duration-200 h-full flex flex-col">
+                      <img src="https://picsum.photos/seed/pixelart/400/200" alt="Generating Pixel Art with AI: A Deep Dive" class="w-full h-40 object-cover border-2 border-black mb-4">
+                      <div class="flex-grow flex flex-col">
+                        <a href="category.html" class="text-sm text-green-400 font-bold uppercase hover:underline">AI Programming</a>
+                        <h2 class="font-press-start text-lg text-yellow-300 my-2 text-shadow-sm flex-grow">
+                          <a href="post.html" class="hover:text-yellow-200">Generating Pixel Art with AI: A Deep Dive</a>
+                        </h2>
+                        <p class="text-gray-300 text-base mb-4">Exploring how to use generative AI models to create unique, retro-style pixel art assets for my games. A look into prompts, models, and pipelines.</p>
+                        <div class="mt-auto pt-4 border-t-2 border-dashed border-gray-600 flex justify-between items-center text-sm text-gray-400">
+                           <span>2024-07-20</span>
+                           <a href="post.html" class="font-bold text-green-400 hover:text-green-300">READ &gt;</a>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Post Card 2 -->
+                    <div class="bg-slate-800 text-white border-4 border-black p-4 sm:p-6 shadow-[8px_8px_0_0_#1e293b] hover:shadow-[10px_10px_0_0_#1e293b] transition-all duration-200 h-full flex flex-col">
+                      <img src="https://picsum.photos/seed/gamedev/400/200" alt="My First Browser Game: Postmortem" class="w-full h-40 object-cover border-2 border-black mb-4">
+                      <div class="flex-grow flex flex-col">
+                        <a href="category.html" class="text-sm text-green-400 font-bold uppercase hover:underline">Game Dev</a>
+                        <h2 class="font-press-start text-lg text-yellow-300 my-2 text-shadow-sm flex-grow">
+                          <a href="post.html" class="hover:text-yellow-200">My First Browser Game: Postmortem</a>
+                        </h2>
+                        <p class="text-gray-300 text-base mb-4">A complete breakdown of the development process for my latest browser game. What went right, what went wrong, and what I learned.</p>
+                        <div class="mt-auto pt-4 border-t-2 border-dashed border-gray-600 flex justify-between items-center text-sm text-gray-400">
+                           <span>2024-06-15</span>
+                           <a href="post.html" class="font-bold text-green-400 hover:text-green-300">READ &gt;</a>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Post Card 3 -->
+                    <div class="bg-slate-800 text-white border-4 border-black p-4 sm:p-6 shadow-[8px_8px_0_0_#1e293b] hover:shadow-[10px_10px_0_0_#1e293b] transition-all duration-200 h-full flex flex-col">
+                      <img src="https://picsum.photos/seed/vibecoding/400/200" alt="Vibe Coding: My Workflow for Rapid Prototyping" class="w-full h-40 object-cover border-2 border-black mb-4">
+                      <div class="flex-grow flex flex-col">
+                        <a href="category.html" class="text-sm text-green-400 font-bold uppercase hover:underline">Web Tech</a>
+                        <h2 class="font-press-start text-lg text-yellow-300 my-2 text-shadow-sm flex-grow">
+                          <a href="post.html" class="hover:text-yellow-200">Vibe Coding: My Workflow for Rapid Prototyping</a>
+                        </h2>
+                        <p class="text-gray-300 text-base mb-4">What is "Vibe Coding"? It's my personal philosophy for staying creative and productive. Here's how I structure my projects and my mindset.</p>
+                        <div class="mt-auto pt-4 border-t-2 border-dashed border-gray-600 flex justify-between items-center text-sm text-gray-400">
+                           <span>2024-05-30</span>
+                           <a href="post.html" class="font-bold text-green-400 hover:text-green-300">READ &gt;</a>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="text-center mt-8">
+                    <a href="archive.html" class="font-press-start text-lg bg-green-500 text-black px-6 py-3 border-4 border-black shadow-[6px_6px_0_0_#000] hover:shadow-none hover:bg-green-400 active:translate-x-1 active:translate-y-1 transition-all transform">
+                        View All Posts
+                    </a>
+                </div>
+            </div>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="bg-gray-900 border-t-4 border-black mt-12 py-6">
+        <div class="container mx-auto px-4 text-center text-gray-500">
+          <p>&copy; 2024 わいへい (Waihei). All rights reserved.</p>
+          <p class="mt-2 text-sm">Powered by Retro Vibes & Code</p>
+        </div>
+      </footer>
+    </div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

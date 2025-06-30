@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generating Pixel Art with AI: A Deep Dive | Waihei's Vibe Coding Lair</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https="fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body class="bg-gray-900 text-white">
+    <div class="flex flex-col min-h-screen bg-gray-900 text-lg text-gray-300">
+      <!-- Header -->
+      <header class="bg-gray-900 border-b-4 border-black sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center">
+          <a href="index.html" class="text-center sm:text-left">
+            <h1 class="font-press-start text-xl md:text-2xl text-green-400 text-shadow hover:text-green-300 transition-colors">
+              Vibe Coding Lair
+            </h1>
+          </a>
+          <nav class="mt-4 sm:mt-0">
+            <ul class="flex space-x-4 md:space-x-6 text-lg">
+              <li><a href="index.html" class="hover:text-yellow-200 transition-colors">Home</a></li>
+              <li><a href="archive.html" class="hover:text-yellow-200 transition-colors">Archive</a></li>
+              <li><a href="about.html" class="hover:text-yellow-200 transition-colors">About</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+      
+      <!-- Main Content -->
+      <main class="flex-grow container mx-auto px-4 py-8">
+        <div class="bg-slate-800 text-white border-4 border-black p-4 sm:p-6 shadow-[8px_8px_0_0_#1e293b]">
+          <article>
+            <div class="border-b-4 border-dashed border-gray-600 pb-4 mb-4">
+                <a href="category.html" class="text-green-400 font-bold uppercase hover:underline">
+                    AI Programming
+                </a>
+                <h1 class="font-press-start text-3xl md:text-4xl text-yellow-300 my-4 text-shadow-sm">Generating Pixel Art with AI: A Deep Dive</h1>
+                <p class="text-gray-400">2024-07-20</p>
+            </div>
+            
+            <img src="https://picsum.photos/seed/pixelart/400/200" alt="Generating Pixel Art with AI: A Deep Dive" class="w-full max-w-2xl mx-auto object-cover border-4 border-black my-6">
+
+            <div class="text-gray-300 space-y-4 text-xl">
+              <p>In the world of retro game development, creating authentic pixel art is a crucial but time-consuming task. As an experiment, I delved into using Generative AI to speed up this process. This post documents my findings.</p>
+              <h3 class="text-xl font-press-start text-yellow-300 my-4">Choosing the Right Model</h3>
+              <p>Not all image models are great at pixel art. I found that models specifically trained on or fine-tuned with pixel art datasets perform best. The key is using prompts that specify the style, like "8-bit sprite", "16-bit RPG character", "pixel art, side-scroller background".</p>
+              <h3 class="text-xl font-press-start text-yellow-300 my-4">Prompt Engineering for Sprites</h3>
+              <p>For a character sprite, a good prompt might be: <code class="bg-gray-800 p-1 text-green-400">'a pixel art sprite of a space knight, 32x32 resolution, limited color palette, NES style, white background'</code>. The specificity is key to getting usable results.</p>
+              <p class="mt-4">The results were surprisingly good, although they often required manual touch-ups in a tool like Aseprite. It's not a complete replacement for an artist, but it's an incredible tool for brainstorming and generating base assets.</p>
+            </div>
+          </article>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="bg-gray-900 border-t-4 border-black mt-12 py-6">
+        <div class="container mx-auto px-4 text-center text-gray-500">
+          <p>&copy; 2024 わいへい (Waihei). All rights reserved.</p>
+          <p class="mt-2 text-sm">Powered by Retro Vibes & Code</p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
