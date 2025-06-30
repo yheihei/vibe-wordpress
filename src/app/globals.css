@@ -58,3 +58,87 @@
     color: #4ade80; /* Tailwind green-400 */
   }
 }
+
+/* WordPress content styling */
+.wp-content {
+  @apply text-gray-300;
+}
+
+.wp-content h1,
+.wp-content h2,
+.wp-content h3,
+.wp-content h4,
+.wp-content h5,
+.wp-content h6 {
+  @apply text-yellow-200 font-press-start mb-4 mt-8;
+}
+
+.wp-content h1 {
+  @apply text-2xl;
+}
+
+.wp-content h2 {
+  @apply text-xl;
+}
+
+.wp-content h3 {
+  @apply text-lg;
+}
+
+.wp-content p {
+  @apply mb-6 leading-relaxed;
+}
+
+.wp-content a {
+  @apply text-green-400 hover:text-green-300 underline transition-colors;
+}
+
+.wp-content ul,
+.wp-content ol {
+  @apply mb-6 ml-6;
+}
+
+.wp-content ul {
+  @apply list-disc;
+}
+
+.wp-content ol {
+  @apply list-decimal;
+}
+
+.wp-content li {
+  @apply mb-2;
+}
+
+.wp-content blockquote {
+  @apply border-l-4 border-green-400 pl-4 my-6 italic text-gray-400;
+}
+
+.wp-content pre {
+  @apply bg-black p-4 rounded overflow-x-auto mb-6;
+}
+
+.wp-content code {
+  @apply bg-gray-800 px-2 py-1 rounded text-green-400;
+}
+
+.wp-content pre code {
+  @apply bg-transparent p-0;
+}
+
+.wp-content img {
+  @apply max-w-full h-auto mb-6;
+}
+
+.wp-content table {
+  @apply w-full mb-6 border-collapse;
+}
+
+.wp-content th,
+.wp-content td {
+  @apply border border-gray-700 px-4 py-2;
+}
+
+.wp-content th {
+  @apply bg-gray-800 font-bold;
+}

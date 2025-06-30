@@ -11,12 +11,13 @@ export const dynamic = 'force-static'
 export const revalidate = 300 // 5分毎にISR
 
 type Props = {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 // メタデータの動的生成
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = await fetchPostBySlug(params.slug)
+  const { slug } = await params
+  const post = await fetchPostBySlug(slug)
 
   if (!post) {
     return {
@@ -43,7 +44,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PostPage({ params }: Props) {
-  const post = await fetchPostBySlug(params.slug)
+  const { slug } = await params
+  const post = await fetchPostBySlug(slug)
 
   if (!post) {
     notFound()

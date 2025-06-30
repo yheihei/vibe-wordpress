@@ -100,31 +100,78 @@ export async function fetchCategories() {
 }
 
 // カテゴリー別の投稿を取得
-export async function fetchPostsByCategory(slug: string, perPage = 10) {
+export async function fetchPostsByCategory(slug: string, perPage = 10, page = 1) {
   // カテゴリースラッグからIDを取得
   const catRes = await fetch(`${API_BASE}/categories?slug=${slug}`)
 
   if (!catRes.ok) {
-    return []
+    return {
+      posts: [],
+      categoryName: '',
+      pagination: {
+        page: 1,
+        totalPages: 0,
+        total: 0,
+        hasNext: false,
+        hasPrev: false,
+      }
+    }
   }
 
   const categories = await catRes.json()
-  if (!categories.length) return []
+  if (!categories.length) {
+    return {
+      posts: [],
+      categoryName: '',
+      pagination: {
+        page: 1,
+        totalPages: 0,
+        total: 0,
+        hasNext: false,
+        hasPrev: false,
+      }
+    }
+  }
+
+  const category = categories[0]
 
   // カテゴリーIDで投稿を取得
   const res = await fetch(
-    `${API_BASE}/posts?categories=${categories[0].id}&per_page=${perPage}&_embed`,
+    `${API_BASE}/posts?categories=${category.id}&per_page=${perPage}&page=${page}&_embed&orderby=date&order=desc`,
     {
       next: { tags: [`category-${slug}`], revalidate: 600 },
     }
   )
 
   if (!res.ok) {
-    return []
+    return {
+      posts: [],
+      categoryName: category.name,
+      pagination: {
+        page: 1,
+        totalPages: 0,
+        total: 0,
+        hasNext: false,
+        hasPrev: false,
+      }
+    }
   }
 
   const posts = await res.json()
-  return z.array(WP_POST).parse(posts)
+  const totalPages = parseInt(res.headers.get('X-WP-TotalPages') || '1')
+  const total = parseInt(res.headers.get('X-WP-Total') || '0')
+
+  return {
+    posts: z.array(WP_POST).parse(posts),
+    categoryName: category.name,
+    pagination: {
+      page,
+      totalPages,
+      total,
+      hasNext: page < totalPages,
+      hasPrev: page > 1,
+    }
+  }
 }
 
 // タグ別の投稿を取得

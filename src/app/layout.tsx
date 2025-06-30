@@ -37,7 +37,7 @@ export default function RootLayout({
                   </li>
                   <li>
                     <Link
-                      href="/archive"
+                      href="/pages/archive"
                       className="hover:text-yellow-200 transition-colors"
                     >
                       Archive
@@ -45,7 +45,7 @@ export default function RootLayout({
                   </li>
                   <li>
                     <Link
-                      href="/about"
+                      href="/pages/about"
                       className="hover:text-yellow-200 transition-colors"
                     >
                       About
