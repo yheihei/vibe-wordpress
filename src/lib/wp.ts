@@ -217,3 +217,58 @@ export function getPostCategories(post: WPPost): WPCategory[] {
   const categories = terms[0] || []
   return categories.filter((cat: any) => cat.taxonomy === 'category')
 }
+
+// 検索機能
+export async function searchPosts(query: string, perPage = 10, page = 1) {
+  // 空のクエリの場合は空配列を返す
+  if (!query || query.trim() === '') {
+    return {
+      posts: [],
+      pagination: {
+        page: 1,
+        totalPages: 0,
+        total: 0,
+        hasNext: false,
+        hasPrev: false,
+      }
+    }
+  }
+
+  // 検索クエリをエンコード
+  const res = await fetch(
+    `${API_BASE}/posts?search=${encodeURIComponent(query)}&per_page=${perPage}&page=${page}&orderby=relevance&_embed`,
+    {
+      // 検索結果はキャッシュしない（動的コンテンツ）
+      cache: 'no-store'
+    }
+  )
+
+  if (!res.ok) {
+    console.error('Failed to search posts:', res.status, res.statusText)
+    return {
+      posts: [],
+      pagination: {
+        page: 1,
+        totalPages: 0,
+        total: 0,
+        hasNext: false,
+        hasPrev: false,
+      }
+    }
+  }
+
+  const posts = await res.json()
+  const totalPages = parseInt(res.headers.get('X-WP-TotalPages') || '1')
+  const total = parseInt(res.headers.get('X-WP-Total') || '0')
+
+  return {
+    posts: z.array(WP_POST).parse(posts),
+    pagination: {
+      page,
+      totalPages,
+      total,
+      hasNext: page < totalPages,
+      hasPrev: page > 1,
+    }
+  }
+}
