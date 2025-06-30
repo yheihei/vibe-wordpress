@@ -3,9 +3,11 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## 応答のルール
+
 - 常に日本語で応答してください。コード部分はそのままにしてください。
 
 ## **MUST** 思考のルール
+
 - 思考する際は英語で考えてください
 
 ## **MUST** PLAY NOTIFY SOUND AFTER EVERY CHAT
@@ -23,7 +25,7 @@ Use command `say "できたぜぇ！？"` to notify the user.
 
 ### 基本フロー
 
-- PRD の各項目を「Plan → Imp → Debug → Review → Doc」サイクルで処理する  
+- PRD の各項目を「Plan → Imp → Debug → Review → Doc」サイクルで処理する
 - irreversible / high-risk 操作（削除・本番 DB 変更・外部 API 決定）は必ず停止する
 
 #### Phase1 Plan

@@ -1,11 +1,16 @@
 import Link from 'next/link'
-import { fetchLatestPosts, fetchCategories, getFeaturedImageUrl, getPostCategories } from '@/lib/wp'
+import {
+  fetchLatestPosts,
+  fetchCategories,
+  getFeaturedImageUrl,
+  getPostCategories,
+} from '@/lib/wp'
 
 export const revalidate = 300 // 5分毎にISR
 
 export default async function HomePage() {
   let posts, categories
-  
+
   try {
     const result = await fetchLatestPosts(9) // 3x3グリッド用に9記事
     posts = result.posts
@@ -30,7 +35,8 @@ export default async function HomePage() {
           </h1>
           <div className="animate-fade-in space-y-6">
             <p className="text-xl max-w-2xl mx-auto text-gray-300">
-              This is the digital playground of わいへい (Waihei). I build games, explore AI, and write about 'Vibe Coding'.
+              This is the digital playground of わいへい (Waihei). I build
+              games, explore AI, and write about &apos;Vibe Coding&apos;.
             </p>
             <a
               href="https://example.com/my-awesome-browser-game"
@@ -54,7 +60,7 @@ export default async function HomePage() {
             const featuredImage = getFeaturedImageUrl(post)
             const postCategories = getPostCategories(post)
             const mainCategory = postCategories[0]
-            
+
             return (
               <div
                 key={post.id}
@@ -88,7 +94,9 @@ export default async function HomePage() {
                     dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
                   />
                   <div className="mt-auto pt-4 border-t-2 border-dashed border-gray-600 flex justify-between items-center text-sm text-gray-400">
-                    <span>{new Date(post.date).toLocaleDateString('ja-JP')}</span>
+                    <span>
+                      {new Date(post.date).toLocaleDateString('ja-JP')}
+                    </span>
                     <Link
                       href={`/posts/${post.slug}`}
                       className="font-bold text-green-400 hover:text-green-300"
@@ -101,11 +109,11 @@ export default async function HomePage() {
             )
           })}
         </div>
-        
+
         {posts.length === 0 && (
           <p className="text-center text-gray-500">まだ記事がありません。</p>
         )}
-        
+
         {posts.length > 0 && (
           <div className="text-center mt-8">
             <Link

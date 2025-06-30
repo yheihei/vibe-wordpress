@@ -6,24 +6,24 @@
 
 ## 0. ゴール
 
-* WordPress を "記事入力専用 CMS" とし、フロントは **Next.js + Vercel** で配信
-* 更新ボタン後 **10 秒** で Edge に反映（オンデマンド ISR）
-* 追加プラグイン不要：WP コアの REST API と PHP 10 行の Webhook だけで完結
+- WordPress を "記事入力専用 CMS" とし、フロントは **Next.js + Vercel** で配信
+- 更新ボタン後 **10 秒** で Edge に反映（オンデマンド ISR）
+- 追加プラグイン不要：WP コアの REST API と PHP 10 行の Webhook だけで完結
 
 ---
 
 ## 1. 技術スタック
 
-| レイヤ         | 採用技術 / サービス                               | 補足                                             |
-| ----------- | ----------------------------------------- | ---------------------------------------------- |
-| **CMS**     | WordPress 6.x（REST API `/wp-json/wp/v2/`） | `_embed` でメディア同梱                               |
-| **フロントエンド** | Next.js 14（App Router, React 18）          | `revalidateTag` 使用                             |
-| **ホスティング**  | Vercel Pro                                | Edge Network / Functions / Incremental Cache   |
-| **画像最適化**   | `next/image`（デフォルトローダ）                    | WebP/AVIF 変換＋CDN キャッシュ                         |
-| **バリデーション** | `zod`                                     | REST レスポンス → 型安全                               |
-| **テスト**     | `vitest`, `@testing-library/react`, `msw` | API モックと UI テスト                                |
-| **CI**      | GitHub Actions                            | `pnpm install → lint → vitest → vercel deploy` |
-| **エディタ支援**  | ESLint, Prettier, TypeScript strict       | ClaudeCode で自動生成対象                             |
+| レイヤ             | 採用技術 / サービス                         | 補足                                           |
+| ------------------ | ------------------------------------------- | ---------------------------------------------- |
+| **CMS**            | WordPress 6.x（REST API `/wp-json/wp/v2/`） | `_embed` でメディア同梱                        |
+| **フロントエンド** | Next.js 14（App Router, React 18）          | `revalidateTag` 使用                           |
+| **ホスティング**   | Vercel Pro                                  | Edge Network / Functions / Incremental Cache   |
+| **画像最適化**     | `next/image`（デフォルトローダ）            | WebP/AVIF 変換＋CDN キャッシュ                 |
+| **バリデーション** | `zod`                                       | REST レスポンス → 型安全                       |
+| **テスト**         | `vitest`, `@testing-library/react`, `msw`   | API モックと UI テスト                         |
+| **CI**             | GitHub Actions                              | `pnpm install → lint → vitest → vercel deploy` |
+| **エディタ支援**   | ESLint, Prettier, TypeScript strict         | ClaudeCode で自動生成対象                      |
 
 ---
 
@@ -31,23 +31,23 @@
 
 ### 2.1 公開ページ
 
-| ルート                | 内容              | 生成方式                       | キャッシュ戦略       |
-| ------------------ | --------------- | -------------------------- | ------------- |
-| `/`                | 最新 10 記事・カテゴリ一覧 | ISR (`revalidate: 300`)    | 5 分毎再生成       |
-| `/posts/[slug]`    | 個別記事（投稿）       | **タグ ISR** (`post-{slug}`) | Webhook で即再生成 |
-| `/pages/[slug]`    | 固定ページ          | **タグ ISR** (`page-{slug}`) | Webhook で即再生成 |
-| `/category/[slug]` | カテゴリ別記事一覧       | ISR (`revalidate: 600`)    | 10 分毎         |
-| `/tag/[slug]`      | タグ別記事一覧         | ISR (`revalidate: 600`)    | 10 分毎         |
-| `/archive/[year]/[month]` | 年月別アーカイブ  | ISR (`revalidate: 3600`)   | 1 時間毎        |
-| `/search`          | 検索結果ページ        | SSR (動的)                  | キャッシュなし      |
-| `404`, `500`       | エラーページ          | 完全静的                       | —             |
+| ルート                    | 内容                       | 生成方式                     | キャッシュ戦略     |
+| ------------------------- | -------------------------- | ---------------------------- | ------------------ |
+| `/`                       | 最新 10 記事・カテゴリ一覧 | ISR (`revalidate: 300`)      | 5 分毎再生成       |
+| `/posts/[slug]`           | 個別記事（投稿）           | **タグ ISR** (`post-{slug}`) | Webhook で即再生成 |
+| `/pages/[slug]`           | 固定ページ                 | **タグ ISR** (`page-{slug}`) | Webhook で即再生成 |
+| `/category/[slug]`        | カテゴリ別記事一覧         | ISR (`revalidate: 600`)      | 10 分毎            |
+| `/tag/[slug]`             | タグ別記事一覧             | ISR (`revalidate: 600`)      | 10 分毎            |
+| `/archive/[year]/[month]` | 年月別アーカイブ           | ISR (`revalidate: 3600`)     | 1 時間毎           |
+| `/search`                 | 検索結果ページ             | SSR (動的)                   | キャッシュなし     |
+| `404`, `500`              | エラーページ               | 完全静的                     | —                  |
 
 ### 2.2 API / ルートハンドラ
 
-| エンドポイント               | メソッド   | 用途                                  | 認証               |
-| --------------------- | ------ | ----------------------------------- | ---------------- |
-| `/api/revalidate-tag` | `POST` | WordPress Webhook → `revalidateTag` | `X-SECRET-TOKEN` |
-| `/api/og`（任意）         | `GET`  | 動的 OGP 生成（`@vercel/og`）             | 無                |
+| エンドポイント        | メソッド | 用途                                | 認証             |
+| --------------------- | -------- | ----------------------------------- | ---------------- |
+| `/api/revalidate-tag` | `POST`   | WordPress Webhook → `revalidateTag` | `X-SECRET-TOKEN` |
+| `/api/og`（任意）     | `GET`    | 動的 OGP 生成（`@vercel/og`）       | 無               |
 
 ---
 
@@ -70,8 +70,8 @@ add_action( 'save_post', function ( $post_id ) {
 
   wp_remote_post( 'https://your-app.vercel.app/api/revalidate-tag', [
     'headers' => [ 'X-SECRET-TOKEN' => $secret ],
-    'body'    => wp_json_encode( [ 
-      'postId' => $post_id, 
+    'body'    => wp_json_encode( [
+      'postId' => $post_id,
       'slug' => $slug,
       'type' => $type // 'post' or 'page'
     ] ),
@@ -80,8 +80,8 @@ add_action( 'save_post', function ( $post_id ) {
 });
 ```
 
-* **削除 (`wp_trash_post`)** も同様にフックし、フロントで 404 を返す実装を追加
-* REST API のみ公開。 `/wp-json/` 配下は **リダイレクトしない**
+- **削除 (`wp_trash_post`)** も同様にフックし、フロントで 404 を返す実装を追加
+- REST API のみ公開。 `/wp-json/` 配下は **リダイレクトしない**
 
 ---
 
@@ -90,6 +90,7 @@ add_action( 'save_post', function ( $post_id ) {
 ### 4.1 ディレクトリ構成（抜粋）
 
 #### REST API エンドポイント対応
+
 - 投稿: `/wp-json/wp/v2/posts`
 - 固定ページ: `/wp-json/wp/v2/pages`
 - カテゴリ: `/wp-json/wp/v2/categories`
@@ -97,6 +98,7 @@ add_action( 'save_post', function ( $post_id ) {
 - 検索: `?search=` パラメータ付き
 
 **重要な注意点:**
+
 - カテゴリ・タグでのフィルタリングはIDを使用（スラッグではない）
 - 日付はISO8601形式（`YYYY-MM-DDTHH:MM:SS`）で指定
 - 最大取得件数は100件/ページ
@@ -132,7 +134,7 @@ src/
 
 ```ts
 // lib/wp.ts
-import { z } from 'zod';
+import { z } from 'zod'
 
 const WP_POST = z.object({
   id: z.number(),
@@ -142,10 +144,10 @@ const WP_POST = z.object({
   content: z.object({ rendered: z.string() }),
   excerpt: z.object({ rendered: z.string() }),
   _embedded: z.any().optional(),
-});
-export type WPPost = z.infer<typeof WP_POST>;
+})
+export type WPPost = z.infer<typeof WP_POST>
 
-const API = `${process.env.WORDPRESS_API_URL}/posts`;
+const API = `${process.env.WORDPRESS_API_URL}/posts`
 
 // 最新記事一覧を取得（トップページ用）
 export async function fetchLatestPosts(perPage = 10, page = 1) {
@@ -156,15 +158,15 @@ export async function fetchLatestPosts(perPage = 10, page = 1) {
     {
       next: { tags: ['posts-list'], revalidate: 300 },
     }
-  );
-  
-  if (!res.ok) throw new Error('Failed to fetch posts');
-  
-  const posts = await res.json();
+  )
+
+  if (!res.ok) throw new Error('Failed to fetch posts')
+
+  const posts = await res.json()
   // ヘッダーからページネーション情報を取得
-  const totalPages = parseInt(res.headers.get('X-WP-TotalPages') || '1');
-  const total = parseInt(res.headers.get('X-WP-Total') || '0');
-  
+  const totalPages = parseInt(res.headers.get('X-WP-TotalPages') || '1')
+  const total = parseInt(res.headers.get('X-WP-Total') || '0')
+
   return {
     posts: z.array(WP_POST).parse(posts),
     pagination: {
@@ -174,86 +176,110 @@ export async function fetchLatestPosts(perPage = 10, page = 1) {
       hasNext: page < totalPages,
       hasPrev: page > 1,
     },
-  };
+  }
 }
 
 export async function fetchPostBySlug(slug: string) {
   const res = await fetch(`${API}?slug=${slug}&_embed`, {
     next: { tags: [`post-${slug}`] },
-  });
-  const json = await res.json();
-  return json.length ? WP_POST.parse(json[0]) : null;
+  })
+  const json = await res.json()
+  return json.length ? WP_POST.parse(json[0]) : null
 }
 
 export async function fetchPageBySlug(slug: string) {
-  const res = await fetch(`${process.env.WORDPRESS_API_URL}/pages?slug=${slug}&_embed`, {
-    next: { tags: [`page-${slug}`] },
-  });
-  const json = await res.json();
-  return json.length ? WP_POST.parse(json[0]) : null;
+  const res = await fetch(
+    `${process.env.WORDPRESS_API_URL}/pages?slug=${slug}&_embed`,
+    {
+      next: { tags: [`page-${slug}`] },
+    }
+  )
+  const json = await res.json()
+  return json.length ? WP_POST.parse(json[0]) : null
 }
 
 export async function fetchPostsByCategory(slug: string, perPage = 10) {
   // カテゴリースラッグからIDを取得
-  const catRes = await fetch(`${process.env.WORDPRESS_API_URL}/categories?slug=${slug}`);
-  const categories = await catRes.json();
-  if (!categories.length) return [];
-  
+  const catRes = await fetch(
+    `${process.env.WORDPRESS_API_URL}/categories?slug=${slug}`
+  )
+  const categories = await catRes.json()
+  if (!categories.length) return []
+
   // カテゴリーIDで投稿を取得
-  const res = await fetch(`${API}?categories=${categories[0].id}&per_page=${perPage}&_embed`, {
-    next: { tags: [`category-${slug}`] },
-  });
-  const posts = await res.json();
-  return z.array(WP_POST).parse(posts);
+  const res = await fetch(
+    `${API}?categories=${categories[0].id}&per_page=${perPage}&_embed`,
+    {
+      next: { tags: [`category-${slug}`] },
+    }
+  )
+  const posts = await res.json()
+  return z.array(WP_POST).parse(posts)
 }
 
 export async function fetchPostsByTag(slug: string, perPage = 10) {
   // タグスラッグからIDを取得
-  const tagRes = await fetch(`${process.env.WORDPRESS_API_URL}/tags?slug=${slug}`);
-  const tags = await tagRes.json();
-  if (!tags.length) return [];
-  
+  const tagRes = await fetch(
+    `${process.env.WORDPRESS_API_URL}/tags?slug=${slug}`
+  )
+  const tags = await tagRes.json()
+  if (!tags.length) return []
+
   // タグIDで投稿を取得
-  const res = await fetch(`${API}?tags=${tags[0].id}&per_page=${perPage}&_embed`, {
-    next: { tags: [`tag-${slug}`] },
-  });
-  const posts = await res.json();
-  return z.array(WP_POST).parse(posts);
+  const res = await fetch(
+    `${API}?tags=${tags[0].id}&per_page=${perPage}&_embed`,
+    {
+      next: { tags: [`tag-${slug}`] },
+    }
+  )
+  const posts = await res.json()
+  return z.array(WP_POST).parse(posts)
 }
 
-export async function fetchPostsByDate(year: string, month: string, perPage = 10) {
+export async function fetchPostsByDate(
+  year: string,
+  month: string,
+  perPage = 10
+) {
   // ISO8601形式で日付範囲を指定
-  const after = `${year}-${month.padStart(2, '0')}-01T00:00:00`;
+  const after = `${year}-${month.padStart(2, '0')}-01T00:00:00`
   // 月末日を正確に計算
-  const lastDay = new Date(parseInt(year), parseInt(month), 0).getDate();
-  const before = `${year}-${month.padStart(2, '0')}-${lastDay}T23:59:59`;
-  
-  const res = await fetch(`${API}?after=${after}&before=${before}&per_page=${perPage}&orderby=date&order=desc&_embed`, {
-    next: { tags: [`archive-${year}-${month}`] },
-  });
-  const posts = await res.json();
-  return z.array(WP_POST).parse(posts);
+  const lastDay = new Date(parseInt(year), parseInt(month), 0).getDate()
+  const before = `${year}-${month.padStart(2, '0')}-${lastDay}T23:59:59`
+
+  const res = await fetch(
+    `${API}?after=${after}&before=${before}&per_page=${perPage}&orderby=date&order=desc&_embed`,
+    {
+      next: { tags: [`archive-${year}-${month}`] },
+    }
+  )
+  const posts = await res.json()
+  return z.array(WP_POST).parse(posts)
 }
 
 export async function searchPosts(query: string, perPage = 10) {
   // 検索クエリをエンコード
-  const res = await fetch(`${API}?search=${encodeURIComponent(query)}&per_page=${perPage}&orderby=relevance&_embed`);
-  const posts = await res.json();
-  return z.array(WP_POST).parse(posts);
+  const res = await fetch(
+    `${API}?search=${encodeURIComponent(query)}&per_page=${perPage}&orderby=relevance&_embed`
+  )
+  const posts = await res.json()
+  return z.array(WP_POST).parse(posts)
 }
 
 // カテゴリー一覧を取得
 export async function fetchCategories() {
-  const res = await fetch(`${process.env.WORDPRESS_API_URL}/categories?per_page=100`);
-  const categories = await res.json();
-  return categories;
+  const res = await fetch(
+    `${process.env.WORDPRESS_API_URL}/categories?per_page=100`
+  )
+  const categories = await res.json()
+  return categories
 }
 
 // タグ一覧を取得
 export async function fetchTags() {
-  const res = await fetch(`${process.env.WORDPRESS_API_URL}/tags?per_page=100`);
-  const tags = await res.json();
-  return tags;
+  const res = await fetch(`${process.env.WORDPRESS_API_URL}/tags?per_page=100`)
+  const tags = await res.json()
+  return tags
 }
 ```
 
@@ -261,19 +287,19 @@ export async function fetchTags() {
 
 ```tsx
 // app/page.tsx (トップページ)
-export const revalidate = 300; // 5分毎にISR
+export const revalidate = 300 // 5分毎にISR
 
-import { fetchLatestPosts, fetchCategories } from '@/lib/wp';
-import Link from 'next/link';
+import { fetchLatestPosts, fetchCategories } from '@/lib/wp'
+import Link from 'next/link'
 
 export default async function HomePage() {
-  const { posts, pagination } = await fetchLatestPosts(10);
-  const categories = await fetchCategories();
-  
+  const { posts, pagination } = await fetchLatestPosts(10)
+  const categories = await fetchCategories()
+
   return (
     <div className="container mx-auto px-4">
       <h1 className="text-4xl font-bold mb-8">最新の記事</h1>
-      
+
       {/* 記事一覧 */}
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => (
@@ -286,23 +312,25 @@ export default async function HomePage() {
                 className="w-full h-48 object-cover rounded mb-4"
               />
             )}
-            
+
             <h2 className="text-xl font-semibold mb-2">
               <Link href={`/posts/${post.slug}`} className="hover:underline">
-                <span dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+                <span
+                  dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+                />
               </Link>
             </h2>
-            
+
             <time className="text-sm text-gray-600">
               {new Date(post.date).toLocaleDateString('ja-JP')}
             </time>
-            
-            <div 
+
+            <div
               className="mt-3 text-gray-700 line-clamp-3"
-              dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} 
+              dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
             />
-            
-            <Link 
+
+            <Link
               href={`/posts/${post.slug}`}
               className="inline-block mt-4 text-blue-600 hover:underline"
             >
@@ -311,7 +339,7 @@ export default async function HomePage() {
           </article>
         ))}
       </div>
-      
+
       {/* カテゴリー一覧 */}
       <aside className="mt-12">
         <h2 className="text-2xl font-bold mb-4">カテゴリー</h2>
@@ -327,7 +355,7 @@ export default async function HomePage() {
           ))}
         </div>
       </aside>
-      
+
       {/* ページネーション（必要に応じて） */}
       {pagination.totalPages > 1 && (
         <div className="mt-8 flex justify-center gap-2">
@@ -336,8 +364,8 @@ export default async function HomePage() {
               key={i + 1}
               href={`/?page=${i + 1}`}
               className={`px-3 py-1 rounded ${
-                pagination.page === i + 1 
-                  ? 'bg-blue-600 text-white' 
+                pagination.page === i + 1
+                  ? 'bg-blue-600 text-white'
                   : 'bg-gray-200 hover:bg-gray-300'
               }`}
             >
@@ -347,66 +375,68 @@ export default async function HomePage() {
         </div>
       )}
     </div>
-  );
+  )
 }
 
 // app/posts/[slug]/page.tsx
-export const dynamic = 'force-static';
-export const revalidate = 300;
+export const dynamic = 'force-static'
+export const revalidate = 300
 
-import { fetchPostBySlug } from '@/lib/wp';
-import { notFound } from 'next/navigation';
+import { fetchPostBySlug } from '@/lib/wp'
+import { notFound } from 'next/navigation'
 
 export default async function PostPage({ params }) {
-  const post = await fetchPostBySlug(params.slug);
-  if (!post) notFound();
+  const post = await fetchPostBySlug(params.slug)
+  if (!post) notFound()
   return (
     <article className="prose mx-auto">
       <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
       <div dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
     </article>
-  );
+  )
 }
 
 // app/pages/[slug]/page.tsx
-export const dynamic = 'force-static';
-export const revalidate = 300;
+export const dynamic = 'force-static'
+export const revalidate = 300
 
-import { fetchPageBySlug } from '@/lib/wp';
-import { notFound } from 'next/navigation';
+import { fetchPageBySlug } from '@/lib/wp'
+import { notFound } from 'next/navigation'
 
 export default async function Page({ params }) {
-  const page = await fetchPageBySlug(params.slug);
-  if (!page) notFound();
+  const page = await fetchPageBySlug(params.slug)
+  if (!page) notFound()
   return (
     <article className="prose mx-auto">
       <h1 dangerouslySetInnerHTML={{ __html: page.title.rendered }} />
       <div dangerouslySetInnerHTML={{ __html: page.content.rendered }} />
     </article>
-  );
+  )
 }
 
 // app/category/[slug]/page.tsx
-export const dynamic = 'force-static';
-export const revalidate = 600;
+export const dynamic = 'force-static'
+export const revalidate = 600
 
-import { fetchPostsByCategory } from '@/lib/wp';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { fetchPostsByCategory } from '@/lib/wp'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
 export default async function CategoryPage({ params }) {
-  const posts = await fetchPostsByCategory(params.slug);
-  if (!posts.length) notFound();
-  
+  const posts = await fetchPostsByCategory(params.slug)
+  if (!posts.length) notFound()
+
   return (
     <div className="container mx-auto">
       <h1>カテゴリ: {params.slug}</h1>
       <div className="grid gap-4">
-        {posts.map(post => (
+        {posts.map((post) => (
           <article key={post.id}>
             <h2>
               <Link href={`/posts/${post.slug}`}>
-                <span dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+                <span
+                  dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+                />
               </Link>
             </h2>
             <div dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
@@ -414,33 +444,39 @@ export default async function CategoryPage({ params }) {
         ))}
       </div>
     </div>
-  );
+  )
 }
 
 // app/archive/[year]/[month]/page.tsx
-export const dynamic = 'force-static';
-export const revalidate = 3600;
+export const dynamic = 'force-static'
+export const revalidate = 3600
 
-import { fetchPostsByDate } from '@/lib/wp';
-import Link from 'next/link';
+import { fetchPostsByDate } from '@/lib/wp'
+import Link from 'next/link'
 
 export default async function ArchivePage({ params }) {
-  const posts = await fetchPostsByDate(params.year, params.month);
-  
+  const posts = await fetchPostsByDate(params.year, params.month)
+
   return (
     <div className="container mx-auto">
-      <h1>{params.year}年{params.month}月のアーカイブ</h1>
+      <h1>
+        {params.year}年{params.month}月のアーカイブ
+      </h1>
       <div className="grid gap-4">
         {posts.length > 0 ? (
-          posts.map(post => (
+          posts.map((post) => (
             <article key={post.id}>
               <h2>
                 <Link href={`/posts/${post.slug}`}>
-                  <span dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+                  <span
+                    dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+                  />
                 </Link>
               </h2>
               <time>{new Date(post.date).toLocaleDateString('ja-JP')}</time>
-              <div dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
+              <div
+                dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
+              />
             </article>
           ))
         ) : (
@@ -448,30 +484,32 @@ export default async function ArchivePage({ params }) {
         )}
       </div>
     </div>
-  );
+  )
 }
 
 // app/tag/[slug]/page.tsx
-export const dynamic = 'force-static';
-export const revalidate = 600;
+export const dynamic = 'force-static'
+export const revalidate = 600
 
-import { fetchPostsByTag } from '@/lib/wp';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { fetchPostsByTag } from '@/lib/wp'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
 export default async function TagPage({ params }) {
-  const posts = await fetchPostsByTag(params.slug);
-  if (!posts.length) notFound();
-  
+  const posts = await fetchPostsByTag(params.slug)
+  if (!posts.length) notFound()
+
   return (
     <div className="container mx-auto">
       <h1>タグ: {params.slug}</h1>
       <div className="grid gap-4">
-        {posts.map(post => (
+        {posts.map((post) => (
           <article key={post.id}>
             <h2>
               <Link href={`/posts/${post.slug}`}>
-                <span dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+                <span
+                  dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+                />
               </Link>
             </h2>
             <div dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
@@ -479,17 +517,17 @@ export default async function TagPage({ params }) {
         ))}
       </div>
     </div>
-  );
+  )
 }
 
 // app/search/page.tsx
-import { searchPosts } from '@/lib/wp';
-import Link from 'next/link';
+import { searchPosts } from '@/lib/wp'
+import Link from 'next/link'
 
 export default async function SearchPage({ searchParams }) {
-  const query = searchParams.q || '';
-  const posts = query ? await searchPosts(query) : [];
-  
+  const query = searchParams.q || ''
+  const posts = query ? await searchPosts(query) : []
+
   return (
     <div className="container mx-auto">
       <h1>検索結果: {query}</h1>
@@ -501,18 +539,27 @@ export default async function SearchPage({ searchParams }) {
           placeholder="検索..."
           className="w-full p-2 border rounded"
         />
-        <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">検索</button>
+        <button
+          type="submit"
+          className="px-4 py-2 bg-blue-500 text-white rounded"
+        >
+          検索
+        </button>
       </form>
       <div className="grid gap-4 mt-6">
         {posts.length > 0 ? (
-          posts.map(post => (
+          posts.map((post) => (
             <article key={post.id}>
               <h2>
                 <Link href={`/posts/${post.slug}`}>
-                  <span dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+                  <span
+                    dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+                  />
                 </Link>
               </h2>
-              <div dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
+              <div
+                dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
+              />
             </article>
           ))
         ) : (
@@ -520,7 +567,7 @@ export default async function SearchPage({ searchParams }) {
         )}
       </div>
     </div>
-  );
+  )
 }
 ```
 
@@ -528,24 +575,27 @@ export default async function SearchPage({ searchParams }) {
 
 ```ts
 // pages/api/revalidate-tag.ts
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { revalidateTag } from 'next/cache';
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { revalidateTag } from 'next/cache'
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.headers['x-secret-token'] !== process.env.REVALIDATE_SECRET) {
-    return res.status(401).end('Unauthorized');
+    return res.status(401).end('Unauthorized')
   }
-  const { slug, type = 'post' } = req.body as { slug: string; type?: string };
+  const { slug, type = 'post' } = req.body as { slug: string; type?: string }
   try {
-    await revalidateTag(`${type}-${slug}`);
+    await revalidateTag(`${type}-${slug}`)
     // カテゴリ・タグ・アーカイブページも再生成トリガー
     if (type === 'post') {
-      await revalidateTag('category-list');
-      await revalidateTag('tag-list');
+      await revalidateTag('category-list')
+      await revalidateTag('tag-list')
     }
-    res.json({ revalidated: true });
+    res.json({ revalidated: true })
   } catch (e) {
-    res.status(500).json({ error: String(e) });
+    res.status(500).json({ error: String(e) })
   }
 }
 ```
@@ -561,17 +611,17 @@ export default {
   images: {
     domains: ['wp.example.com'], // WordPress の画像ドメイン
   },
-};
+}
 ```
 
 ---
 
 ## 5. 環境変数（Vercel Project → **Production & Preview 両方に設定**）
 
-| 変数名                    | 例                                        | 用途              |
-| ---------------------- | ---------------------------------------- | --------------- |
-| `WORDPRESS_API_URL`    | `https://blog.example.com/wp-json/wp/v2` | REST ベース        |
-| `REVALIDATE_SECRET`    | 長いランダム文字列                                | Webhook 認証      |
+| 変数名                 | 例                                       | 用途             |
+| ---------------------- | ---------------------------------------- | ---------------- |
+| `WORDPRESS_API_URL`    | `https://blog.example.com/wp-json/wp/v2` | REST ベース      |
+| `REVALIDATE_SECRET`    | 長いランダム文字列                       | Webhook 認証     |
 | `NEXT_PUBLIC_SITE_URL` | `https://myblog.vercel.app`              | SEO Canonical 等 |
 
 ---
@@ -598,15 +648,15 @@ jobs:
 
 ## 7. 非機能要件
 
-| 指標         | 目標値                               |
-| ---------- | --------------------------------- |
-| **初回 LCP** | < 2.5 s（mobile）                   |
-| **TTFB**   | < 200 ms（Edge キャッシュヒット）           |
-| **FCP**    | < 2 s                             |
-| **更新遅延**   | WordPress 公開 → Edge 反映 **≤ 10 s** |
-| **ビルド時間**  | 1,000 記事で `next build` ≤ 60 s     |
-| **稼働率**    | Vercel SLA（99.99 %）               |
-| **監視**     | 500系レスポンス・Webhook 失敗時 Sentry 通知   |
+| 指標           | 目標値                                      |
+| -------------- | ------------------------------------------- |
+| **初回 LCP**   | < 2.5 s（mobile）                           |
+| **TTFB**       | < 200 ms（Edge キャッシュヒット）           |
+| **FCP**        | < 2 s                                       |
+| **更新遅延**   | WordPress 公開 → Edge 反映 **≤ 10 s**       |
+| **ビルド時間** | 1,000 記事で `next build` ≤ 60 s            |
+| **稼働率**     | Vercel SLA（99.99 %）                       |
+| **監視**       | 500系レスポンス・Webhook 失敗時 Sentry 通知 |
 
 ---
 
@@ -620,26 +670,26 @@ jobs:
 
 ## 9. Deliverables（ClaudeCode への指示）
 
-| ファイル / ディレクトリ                 | 内容                                                      |
-| ----------------------------- | ------------------------------------------------------- |
-| `next.config.mjs`             | incremental cache 設定込み                                  |
-| `src/lib/wp.ts`               | REST fetch + zod schema                                 |
-| `src/app/…`                   | `layout.tsx`, `page.tsx`, `posts/[slug]/page.tsx`, `pages/[slug]/page.tsx`, `tag/[slug]/page.tsx`, `search/page.tsx` 他     |
-| `pages/api/revalidate-tag.ts` | Webhook ハンドラ                                            |
-| `tests/*`                     | vitest + msw テスト                                        |
-| `README.md`                   | ① 環境変数設定手順<br>② WordPress Webhook 設定手順<br>③ 開発 & デプロイ手順 |
-| `.github/workflows/main.yml`  | CI パイプライン                                               |
+| ファイル / ディレクトリ       | 内容                                                                                                                    |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `next.config.mjs`             | incremental cache 設定込み                                                                                              |
+| `src/lib/wp.ts`               | REST fetch + zod schema                                                                                                 |
+| `src/app/…`                   | `layout.tsx`, `page.tsx`, `posts/[slug]/page.tsx`, `pages/[slug]/page.tsx`, `tag/[slug]/page.tsx`, `search/page.tsx` 他 |
+| `pages/api/revalidate-tag.ts` | Webhook ハンドラ                                                                                                        |
+| `tests/*`                     | vitest + msw テスト                                                                                                     |
+| `README.md`                   | ① 環境変数設定手順<br>② WordPress Webhook 設定手順<br>③ 開発 & デプロイ手順                                             |
+| `.github/workflows/main.yml`  | CI パイプライン                                                                                                         |
 
 ---
 
 ## 10. 拡張ロードマップ（MVP 後）
 
-| ステージ     | 機能         | 技術候補                     |
-| -------- | ---------- | ------------------------ |
-| **v1.1** | OGP 自動生成   | `/api/og` + `@vercel/og` |
-| **v1.2** | フルテキスト検索   | Algolia / Pagefind       |
-| **v1.3** | 画像 CDN 最適化 | Cloudinary / imgix       |
-| **v2.0** | 多言語対応      | `next-intl` + WPML       |
+| ステージ | 機能             | 技術候補                 |
+| -------- | ---------------- | ------------------------ |
+| **v1.1** | OGP 自動生成     | `/api/og` + `@vercel/og` |
+| **v1.2** | フルテキスト検索 | Algolia / Pagefind       |
+| **v1.3** | 画像 CDN 最適化  | Cloudinary / imgix       |
+| **v2.0** | 多言語対応       | `next-intl` + WPML       |
 
 ---
 

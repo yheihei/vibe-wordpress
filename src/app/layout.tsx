@@ -4,7 +4,8 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Vibe Coding Lair',
-  description: 'The digital playground of わいへい (Waihei). I build games, explore AI, and write about Vibe Coding.',
+  description:
+    'The digital playground of わいへい (Waihei). I build games, explore AI, and write about Vibe Coding.',
 }
 
 export default function RootLayout({
@@ -27,17 +28,26 @@ export default function RootLayout({
               <nav className="mt-4 sm:mt-0">
                 <ul className="flex space-x-4 md:space-x-6 text-lg">
                   <li>
-                    <Link href="/" className="hover:text-yellow-200 transition-colors">
+                    <Link
+                      href="/"
+                      className="hover:text-yellow-200 transition-colors"
+                    >
                       Home
                     </Link>
                   </li>
                   <li>
-                    <Link href="/archive" className="hover:text-yellow-200 transition-colors">
+                    <Link
+                      href="/archive"
+                      className="hover:text-yellow-200 transition-colors"
+                    >
                       Archive
                     </Link>
                   </li>
                   <li>
-                    <Link href="/about" className="hover:text-yellow-200 transition-colors">
+                    <Link
+                      href="/about"
+                      className="hover:text-yellow-200 transition-colors"
+                    >
                       About
                     </Link>
                   </li>
@@ -45,7 +55,7 @@ export default function RootLayout({
               </nav>
             </div>
           </header>
-          
+
           {/* Main Content */}
           <main className="flex-grow container mx-auto px-4 py-8">
             {children}

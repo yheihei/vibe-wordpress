@@ -84,8 +84,8 @@ add_action( 'save_post', function ( $post_id ) {
 
   wp_remote_post( 'https://your-app.vercel.app/api/revalidate-tag', [
     'headers' => [ 'X-SECRET-TOKEN' => $secret ],
-    'body'    => wp_json_encode( [ 
-      'postId' => $post_id, 
+    'body'    => wp_json_encode( [
+      'postId' => $post_id,
       'slug' => $slug,
       'type' => $type
     ] ),
