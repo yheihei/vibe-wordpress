@@ -9,10 +9,10 @@ interface SearchFormProps {
   placeholder?: string
 }
 
-export function SearchForm({ 
-  defaultValue = '', 
+export function SearchForm({
+  defaultValue = '',
   className = '',
-  placeholder = 'Search...'
+  placeholder = 'Search...',
 }: SearchFormProps) {
   const [query, setQuery] = useState(defaultValue)
   const router = useRouter()

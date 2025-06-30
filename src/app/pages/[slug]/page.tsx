@@ -41,7 +41,7 @@ export default async function Page({ params }: PageProps) {
         className="font-press-start text-3xl md:text-4xl text-yellow-200 mb-8 text-shadow"
         dangerouslySetInnerHTML={{ __html: page.title.rendered }}
       />
-      
+
       <div
         className="wp-content text-gray-300 space-y-6"
         dangerouslySetInnerHTML={{ __html: page.content.rendered }}

@@ -100,7 +100,11 @@ export async function fetchCategories() {
 }
 
 // カテゴリー別の投稿を取得
-export async function fetchPostsByCategory(slug: string, perPage = 10, page = 1) {
+export async function fetchPostsByCategory(
+  slug: string,
+  perPage = 10,
+  page = 1
+) {
   // カテゴリースラッグからIDを取得
   const catRes = await fetch(`${API_BASE}/categories?slug=${slug}`)
 
@@ -114,7 +118,7 @@ export async function fetchPostsByCategory(slug: string, perPage = 10, page = 1)
         total: 0,
         hasNext: false,
         hasPrev: false,
-      }
+      },
     }
   }
 
@@ -129,7 +133,7 @@ export async function fetchPostsByCategory(slug: string, perPage = 10, page = 1)
         total: 0,
         hasNext: false,
         hasPrev: false,
-      }
+      },
     }
   }
 
@@ -153,7 +157,7 @@ export async function fetchPostsByCategory(slug: string, perPage = 10, page = 1)
         total: 0,
         hasNext: false,
         hasPrev: false,
-      }
+      },
     }
   }
 
@@ -170,36 +174,83 @@ export async function fetchPostsByCategory(slug: string, perPage = 10, page = 1)
       total,
       hasNext: page < totalPages,
       hasPrev: page > 1,
-    }
+    },
   }
 }
 
 // タグ別の投稿を取得
-export async function fetchPostsByTag(slug: string, perPage = 10) {
+export async function fetchPostsByTag(slug: string, perPage = 10, page = 1) {
   // タグスラッグからIDを取得
   const tagRes = await fetch(`${API_BASE}/tags?slug=${slug}`)
 
   if (!tagRes.ok) {
-    return []
+    return {
+      posts: [],
+      tagName: '',
+      pagination: {
+        page: 1,
+        totalPages: 0,
+        total: 0,
+        hasNext: false,
+        hasPrev: false,
+      },
+    }
   }
 
   const tags = await tagRes.json()
-  if (!tags.length) return []
+  if (!tags.length) {
+    return {
+      posts: [],
+      tagName: '',
+      pagination: {
+        page: 1,
+        totalPages: 0,
+        total: 0,
+        hasNext: false,
+        hasPrev: false,
+      },
+    }
+  }
+
+  const tag = tags[0]
 
   // タグIDで投稿を取得
   const res = await fetch(
-    `${API_BASE}/posts?tags=${tags[0].id}&per_page=${perPage}&_embed`,
+    `${API_BASE}/posts?tags=${tag.id}&per_page=${perPage}&page=${page}&_embed&orderby=date&order=desc`,
     {
       next: { tags: [`tag-${slug}`], revalidate: 600 },
     }
   )
 
   if (!res.ok) {
-    return []
+    return {
+      posts: [],
+      tagName: tag.name,
+      pagination: {
+        page: 1,
+        totalPages: 0,
+        total: 0,
+        hasNext: false,
+        hasPrev: false,
+      },
+    }
   }
 
   const posts = await res.json()
-  return z.array(WP_POST).parse(posts)
+  const totalPages = parseInt(res.headers.get('X-WP-TotalPages') || '1')
+  const total = parseInt(res.headers.get('X-WP-Total') || '0')
+
+  return {
+    posts: z.array(WP_POST).parse(posts),
+    tagName: tag.name,
+    pagination: {
+      page,
+      totalPages,
+      total,
+      hasNext: page < totalPages,
+      hasPrev: page > 1,
+    },
+  }
 }
 
 // アイキャッチ画像のURLを取得するヘルパー関数
@@ -230,7 +281,7 @@ export async function searchPosts(query: string, perPage = 10, page = 1) {
         total: 0,
         hasNext: false,
         hasPrev: false,
-      }
+      },
     }
   }
 
@@ -239,7 +290,7 @@ export async function searchPosts(query: string, perPage = 10, page = 1) {
     `${API_BASE}/posts?search=${encodeURIComponent(query)}&per_page=${perPage}&page=${page}&orderby=relevance&_embed`,
     {
       // 検索結果はキャッシュしない（動的コンテンツ）
-      cache: 'no-store'
+      cache: 'no-store',
     }
   )
 
@@ -253,7 +304,7 @@ export async function searchPosts(query: string, perPage = 10, page = 1) {
         total: 0,
         hasNext: false,
         hasPrev: false,
-      }
+      },
     }
   }
 
@@ -269,6 +320,80 @@ export async function searchPosts(query: string, perPage = 10, page = 1) {
       total,
       hasNext: page < totalPages,
       hasPrev: page > 1,
+    },
+  }
+}
+
+// 年月別の投稿を取得
+export async function fetchPostsByDate(
+  year: string,
+  month: string,
+  perPage = 10,
+  page = 1
+) {
+  // ISO8601形式で日付範囲を指定
+  const after = `${year}-${month.padStart(2, '0')}-01T00:00:00`
+  // 月末日を正確に計算
+  const lastDay = new Date(parseInt(year), parseInt(month), 0).getDate()
+  const before = `${year}-${month.padStart(2, '0')}-${lastDay}T23:59:59`
+
+  const res = await fetch(
+    `${API_BASE}/posts?after=${after}&before=${before}&per_page=${perPage}&page=${page}&orderby=date&order=desc&_embed`,
+    {
+      next: { tags: [`archive-${year}-${month}`], revalidate: 3600 },
+    }
+  )
+
+  if (!res.ok) {
+    return {
+      posts: [],
+      pagination: {
+        page: 1,
+        totalPages: 0,
+        total: 0,
+        hasNext: false,
+        hasPrev: false,
+      },
     }
   }
+
+  const posts = await res.json()
+  const totalPages = parseInt(res.headers.get('X-WP-TotalPages') || '1')
+  const total = parseInt(res.headers.get('X-WP-Total') || '0')
+
+  return {
+    posts: z.array(WP_POST).parse(posts),
+    pagination: {
+      page,
+      totalPages,
+      total,
+      hasNext: page < totalPages,
+      hasPrev: page > 1,
+    },
+  }
+}
+
+// タグ一覧を取得
+export async function fetchTags() {
+  const res = await fetch(`${API_BASE}/tags?per_page=100`, {
+    next: { tags: ['tags'], revalidate: 600 },
+  })
+
+  if (!res.ok) {
+    console.error('Failed to fetch tags:', res.status, res.statusText)
+    return []
+  }
+
+  const tags = await res.json()
+  return tags
+}
+
+// タグ情報を取得するヘルパー関数
+export function getPostTags(post: WPPost): any[] {
+  const terms = post._embedded?.['wp:term']
+  if (!terms || !Array.isArray(terms)) return []
+
+  // タグは通常2番目の配列に格納される
+  const tags = terms[1] || []
+  return tags.filter((tag: any) => tag.taxonomy === 'post_tag')
 }

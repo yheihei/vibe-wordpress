@@ -22,12 +22,19 @@ export async function generateMetadata({
   }
 }
 
-export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
+export default async function CategoryPage({
+  params,
+  searchParams,
+}: CategoryPageProps) {
   const { slug } = await params
   const { page: pageParam } = await searchParams
   const page = parseInt(pageParam || '1', 10)
-  
-  const { posts, categoryName, pagination } = await fetchPostsByCategory(slug, 10, page)
+
+  const { posts, categoryName, pagination } = await fetchPostsByCategory(
+    slug,
+    10,
+    page
+  )
 
   if (!posts.length && page === 1) {
     notFound()
@@ -42,7 +49,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
       <div className="grid gap-8">
         {posts.map((post) => {
           const featuredImage = getFeaturedImageUrl(post)
-          
+
           return (
             <article
               key={post.id}
@@ -58,7 +65,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
                     />
                   </div>
                 )}
-                
+
                 <div className={featuredImage ? 'md:w-2/3' : 'w-full'}>
                   <h2 className="text-xl md:text-2xl mb-3">
                     <Link
@@ -66,7 +73,9 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
                       className="text-green-400 hover:text-green-300 transition-colors"
                     >
                       <span
-                        dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+                        dangerouslySetInnerHTML={{
+                          __html: post.title.rendered,
+                        }}
                       />
                     </Link>
                   </h2>
@@ -99,7 +108,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
 
       {/* ページネーション */}
       {pagination.totalPages > 1 && (
-        <nav 
+        <nav
           className="mt-12 flex justify-center items-center gap-4"
           aria-label="ページネーション"
         >
@@ -122,7 +131,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
             {Array.from({ length: pagination.totalPages }, (_, i) => {
               const pageNum = i + 1
               const isCurrentPage = pageNum === page
-              
+
               // 現在のページの前後2ページ、最初と最後のページを表示
               if (
                 pageNum === 1 ||
@@ -143,7 +152,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
                   </Link>
                 )
               }
-              
+
               // 省略記号を表示
               if (pageNum === page - 3 || pageNum === page + 3) {
                 return (
@@ -152,7 +161,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
                   </span>
                 )
               }
-              
+
               return null
             })}
           </div>
@@ -175,7 +184,8 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
 
       {/* ページ情報 */}
       <div className="mt-6 text-center text-gray-500 text-sm">
-        {pagination.total}件中 {(page - 1) * 10 + 1}-{Math.min(page * 10, pagination.total)}件を表示
+        {pagination.total}件中 {(page - 1) * 10 + 1}-
+        {Math.min(page * 10, pagination.total)}件を表示
       </div>
     </div>
   )

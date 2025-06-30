@@ -49,16 +49,16 @@ export default async function SearchPage({
                     />
                   </Link>
                 </h2>
-                
+
                 <time className="text-sm text-gray-500 font-mono">
                   {new Date(post.date).toLocaleDateString('ja-JP')}
                 </time>
-                
+
                 <div
                   className="mt-3 text-gray-300 line-clamp-3"
                   dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
                 />
-                
+
                 <Link
                   href={`/posts/${post.slug}`}
                   className="inline-block mt-3 text-yellow-200 hover:text-yellow-100 
@@ -81,11 +81,11 @@ export default async function SearchPage({
                     &lt; PREV
                   </Link>
                 )}
-                
+
                 <span className="px-4 py-2 text-gray-400 font-mono">
                   {pagination.page} / {pagination.totalPages}
                 </span>
-                
+
                 {pagination.hasNext && (
                   <Link
                     href={`/search?q=${encodeURIComponent(query)}&page=${pagination.page + 1}`}
@@ -102,7 +102,8 @@ export default async function SearchPage({
           <div className="text-center py-12">
             {query ? (
               <p className="text-gray-400 text-lg">
-                「<span className="text-yellow-200">{query}</span>」に一致する記事が見つかりませんでした。
+                「<span className="text-yellow-200">{query}</span>
+                」に一致する記事が見つかりませんでした。
               </p>
             ) : (
               <p className="text-gray-400 text-lg">

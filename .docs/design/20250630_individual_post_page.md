@@ -35,6 +35,7 @@ src/app/posts/[slug]/page.tsx  # 個別記事ページコンポーネント
 ### メタデータ
 
 動的メタデータ生成機能:
+
 - ページタイトル: `{記事タイトル} | Vibe Coding Lair`
 - 説明文: 記事の抜粋（最大160文字）
 - OGP: Open Graphメタデータ対応

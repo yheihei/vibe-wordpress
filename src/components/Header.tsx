@@ -42,7 +42,7 @@ export function Header() {
               </ul>
             </nav>
           </div>
-          
+
           {/* Search Form */}
           <div className="w-full sm:w-auto">
             <SearchForm className="justify-center sm:justify-end" />
