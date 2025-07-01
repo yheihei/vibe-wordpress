@@ -61,7 +61,7 @@ export default async function CategoryPage({
                     <img
                       src={featuredImage}
                       alt=""
-                      className="w-full h-48 md:h-full object-cover"
+                      className="w-full aspect-video md:h-full object-cover"
                     />
                   </div>
                 )}

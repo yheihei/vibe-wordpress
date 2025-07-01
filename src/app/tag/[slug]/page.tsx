@@ -51,7 +51,7 @@ export default async function TagPage({ params, searchParams }: Props) {
                       <img
                         src={featuredImage}
                         alt={post.title.rendered}
-                        className="w-full h-48 object-cover"
+                        className="w-full aspect-video object-cover"
                       />
                     )}
                     <div className="p-6">

@@ -1,10 +1,10 @@
-import Link from 'next/link'
 import {
-  fetchLatestPosts,
   fetchCategories,
+  fetchLatestPosts,
   getFeaturedImageUrl,
   getPostCategories,
 } from '@/lib/wp'
+import Link from 'next/link'
 
 export const revalidate = 300 // 5分毎にISR
 
@@ -70,7 +70,7 @@ export default async function HomePage() {
                   <img
                     src={featuredImage}
                     alt={post.title.rendered.replace(/<[^>]*>/g, '')}
-                    className="w-full h-40 object-cover border-2 border-black mb-4"
+                    className="w-full aspect-video object-cover border-2 border-black mb-4"
                   />
                 )}
                 <div className="flex-grow flex flex-col">
