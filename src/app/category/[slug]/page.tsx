@@ -1,4 +1,9 @@
-import { fetchPostsByCategory, fetchPostsByCategoryWithChildren, getFeaturedImageUrl, fetchCategories } from '@/lib/wp'
+import {
+  fetchPostsByCategory,
+  fetchPostsByCategoryWithChildren,
+  getFeaturedImageUrl,
+  fetchCategories,
+} from '@/lib/wp'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
@@ -27,10 +32,10 @@ export async function generateMetadata({
   params,
 }: CategoryPageProps): Promise<Metadata> {
   const { slug } = await params
-  
+
   // まず通常のカテゴリー取得を試みる
   let result = await fetchPostsByCategory(slug, 10, 1)
-  
+
   // 投稿が0件の場合、子カテゴリーを含めて取得を試みる
   if (result.posts.length === 0) {
     result = await fetchPostsByCategoryWithChildren(slug, 10, 1)
@@ -51,11 +56,15 @@ export default async function CategoryPage({
   const page = parseInt(pageParam || '1', 10)
 
   // まず通常のカテゴリー取得を試みる
-  let result = await fetchPostsByCategory(slug, 10, page) as CategoryWithPosts
-  
+  let result = (await fetchPostsByCategory(slug, 10, page)) as CategoryWithPosts
+
   // 投稿が0件かつ1ページ目の場合、子カテゴリーを含めて取得を試みる
   if (result.posts.length === 0 && page === 1) {
-    result = await fetchPostsByCategoryWithChildren(slug, 10, page) as CategoryWithPosts
+    result = (await fetchPostsByCategoryWithChildren(
+      slug,
+      10,
+      page
+    )) as CategoryWithPosts
   }
 
   const { posts, categoryName, pagination } = result
@@ -67,8 +76,10 @@ export default async function CategoryPage({
 
   // 子カテゴリーを取得
   const categories = await fetchCategories()
-  const currentCategory = categories.find(cat => cat.slug === slug)
-  const childCategories = currentCategory ? categories.filter(cat => cat.parent === currentCategory.id) : []
+  const currentCategory = categories.find((cat) => cat.slug === slug)
+  const childCategories = currentCategory
+    ? categories.filter((cat) => cat.parent === currentCategory.id)
+    : []
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -103,64 +114,66 @@ export default async function CategoryPage({
       ) : (
         <div className="grid gap-8">
           {posts.map((post) => {
-          const featuredImage = getFeaturedImageUrl(post)
+            const featuredImage = getFeaturedImageUrl(post)
 
-          return (
-            <article
-              key={post.id}
-              className="bg-black border-4 border-gray-800 p-6 hover:border-green-400 transition-all duration-300"
-            >
-              <div className="flex flex-col md:flex-row gap-6">
-                {featuredImage && (
-                  <div className="md:w-1/3">
-                    <Link href={`/posts/${post.slug}`}>
-                      <img
-                        src={featuredImage}
-                        alt=""
-                        className="w-full aspect-video md:h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
-                      />
-                    </Link>
-                  </div>
-                )}
+            return (
+              <article
+                key={post.id}
+                className="bg-black border-4 border-gray-800 p-6 hover:border-green-400 transition-all duration-300"
+              >
+                <div className="flex flex-col md:flex-row gap-6">
+                  {featuredImage && (
+                    <div className="md:w-1/3">
+                      <Link href={`/posts/${post.slug}`}>
+                        <img
+                          src={featuredImage}
+                          alt=""
+                          className="w-full aspect-video md:h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                        />
+                      </Link>
+                    </div>
+                  )}
 
-                <div className={featuredImage ? 'md:w-2/3' : 'w-full'}>
-                  <h2 className="font-gothic text-xl md:text-2xl mb-3">
+                  <div className={featuredImage ? 'md:w-2/3' : 'w-full'}>
+                    <h2 className="font-gothic text-xl md:text-2xl mb-3">
+                      <Link
+                        href={`/posts/${post.slug}`}
+                        className="text-green-400 hover:text-green-300 transition-colors"
+                      >
+                        <span
+                          dangerouslySetInnerHTML={{
+                            __html: post.title.rendered,
+                          }}
+                        />
+                      </Link>
+                    </h2>
+
+                    <time className="text-sm text-gray-500 block mb-3">
+                      {new Date(post.date).toLocaleDateString('ja-JP', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </time>
+
+                    <div
+                      className="text-gray-300 mb-4 line-clamp-3"
+                      dangerouslySetInnerHTML={{
+                        __html: post.excerpt.rendered,
+                      }}
+                    />
+
                     <Link
                       href={`/posts/${post.slug}`}
-                      className="text-green-400 hover:text-green-300 transition-colors"
+                      className="inline-block px-4 py-2 bg-green-400 text-black hover:bg-green-300 transition-colors font-bold"
                     >
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: post.title.rendered,
-                        }}
-                      />
+                      READ MORE &gt;&gt;
                     </Link>
-                  </h2>
-
-                  <time className="text-sm text-gray-500 block mb-3">
-                    {new Date(post.date).toLocaleDateString('ja-JP', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
-                  </time>
-
-                  <div
-                    className="text-gray-300 mb-4 line-clamp-3"
-                    dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
-                  />
-
-                  <Link
-                    href={`/posts/${post.slug}`}
-                    className="inline-block px-4 py-2 bg-green-400 text-black hover:bg-green-300 transition-colors font-bold"
-                  >
-                    READ MORE &gt;&gt;
-                  </Link>
+                  </div>
                 </div>
-              </div>
-            </article>
-          )
-        })}
+              </article>
+            )
+          })}
         </div>
       )}
 

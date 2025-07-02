@@ -399,15 +399,20 @@ export function getPostTags(post: WPPost): any[] {
 }
 
 // 再帰的に子カテゴリーを取得するヘルパー関数
-function getAllDescendantCategories(categoryId: number, allCategories: any[]): number[] {
-  const directChildren = allCategories.filter(cat => cat.parent === categoryId)
-  const descendantIds = directChildren.map(cat => cat.id)
-  
+function getAllDescendantCategories(
+  categoryId: number,
+  allCategories: any[]
+): number[] {
+  const directChildren = allCategories.filter(
+    (cat) => cat.parent === categoryId
+  )
+  const descendantIds = directChildren.map((cat) => cat.id)
+
   // 各子カテゴリーの子孫も再帰的に取得
-  directChildren.forEach(child => {
+  directChildren.forEach((child) => {
     descendantIds.push(...getAllDescendantCategories(child.id, allCategories))
   })
-  
+
   return descendantIds
 }
 
@@ -419,7 +424,7 @@ export async function fetchPostsByCategoryWithChildren(
 ) {
   // まず全カテゴリーを取得
   const categoriesRes = await fetch(`${API_BASE}/categories?per_page=100`)
-  
+
   if (!categoriesRes.ok) {
     return {
       posts: [],
@@ -433,12 +438,12 @@ export async function fetchPostsByCategoryWithChildren(
       },
     }
   }
-  
+
   const allCategories = await categoriesRes.json()
-  
+
   // 親カテゴリーを探す
   const parentCategory = allCategories.find((cat: any) => cat.slug === slug)
-  
+
   if (!parentCategory) {
     return {
       posts: [],
@@ -452,19 +457,19 @@ export async function fetchPostsByCategoryWithChildren(
       },
     }
   }
-  
+
   // 子カテゴリーを再帰的に取得
-  const descendantIds = getAllDescendantCategories(parentCategory.id, allCategories)
-  
-  // 親カテゴリーと全ての子孫カテゴリーのIDを集める
-  const categoryIds = [
+  const descendantIds = getAllDescendantCategories(
     parentCategory.id,
-    ...descendantIds,
-  ]
-  
+    allCategories
+  )
+
+  // 親カテゴリーと全ての子孫カテゴリーのIDを集める
+  const categoryIds = [parentCategory.id, ...descendantIds]
+
   // カテゴリーIDをカンマ区切りで結合
   const categoriesParam = categoryIds.join(',')
-  
+
   // 投稿を取得
   const res = await fetch(
     `${API_BASE}/posts?categories=${categoriesParam}&per_page=${perPage}&page=${page}&_embed&orderby=date&order=desc`,
@@ -472,7 +477,7 @@ export async function fetchPostsByCategoryWithChildren(
       next: { tags: [`category-${slug}-with-children`], revalidate: 600 },
     }
   )
-  
+
   if (!res.ok) {
     return {
       posts: [],
@@ -486,11 +491,11 @@ export async function fetchPostsByCategoryWithChildren(
       },
     }
   }
-  
+
   const posts = await res.json()
   const totalPages = parseInt(res.headers.get('X-WP-TotalPages') || '1')
   const total = parseInt(res.headers.get('X-WP-Total') || '0')
-  
+
   return {
     posts: z.array(WP_POST).parse(posts),
     categoryName: parentCategory.name,

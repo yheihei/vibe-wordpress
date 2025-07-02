@@ -36,7 +36,7 @@ export default async function SearchPage({
           <>
             {posts.map((post) => {
               const featuredImage = getFeaturedImageUrl(post)
-              
+
               return (
                 <article
                   key={post.id}
@@ -54,7 +54,7 @@ export default async function SearchPage({
                         </Link>
                       </div>
                     )}
-                    
+
                     <div className={featuredImage ? 'md:w-2/3' : 'w-full'}>
                       <h2 className="text-xl md:text-2xl font-bold mb-2">
                         <Link
@@ -62,7 +62,9 @@ export default async function SearchPage({
                           className="text-green-400 hover:text-yellow-200 transition-colors"
                         >
                           <span
-                            dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+                            dangerouslySetInnerHTML={{
+                              __html: post.title.rendered,
+                            }}
                           />
                         </Link>
                       </h2>
@@ -73,7 +75,9 @@ export default async function SearchPage({
 
                       <div
                         className="mt-3 text-gray-300 line-clamp-3"
-                        dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
+                        dangerouslySetInnerHTML={{
+                          __html: post.excerpt.rendered,
+                        }}
                       />
 
                       <Link

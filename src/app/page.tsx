@@ -19,7 +19,7 @@ export default async function HomePage() {
       fetchCategories(),
       fetchPostsByCategoryWithChildren('portfolio', 6, 1),
     ])
-    
+
     posts = latestResult.posts
     categories = categoriesData
     portfolioPosts = portfolioResult.posts
@@ -43,8 +43,8 @@ export default async function HomePage() {
           </h1>
           <div className="animate-fade-in space-y-6">
             <p className="text-xl max-w-2xl mx-auto text-gray-300">
-              This is the digital playground of わいへい (yhei_hei). <br />
-              I build games, explore AI, and write about &apos;Vibe Coding&apos;.
+              This is the digital playground of わいへい (yhei_hei). <br />I
+              build games, explore AI, and write about &apos;Vibe Coding&apos;.
             </p>
             <a
               href="https://example.com/my-awesome-browser-game"
@@ -175,12 +175,16 @@ export default async function HomePage() {
                       <Link
                         href={`/posts/${post.slug}`}
                         className="hover:text-yellow-200"
-                        dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+                        dangerouslySetInnerHTML={{
+                          __html: post.title.rendered,
+                        }}
                       />
                     </h2>
                     <div
                       className="text-gray-300 text-base mb-4 line-clamp-3"
-                      dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
+                      dangerouslySetInnerHTML={{
+                        __html: post.excerpt.rendered,
+                      }}
                     />
                     <div className="mt-auto pt-4 border-t-2 border-dashed border-gray-600 flex justify-between items-center text-sm text-gray-400">
                       <span>
@@ -198,7 +202,7 @@ export default async function HomePage() {
               )
             })}
           </div>
-          
+
           <div className="text-center mt-12">
             <Link
               href="/category/portfolio"

@@ -10,6 +10,75 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - 思考する際は英語で考えてください
 
+## プロジェクト概要
+
+Headless WordPress × Next.js のレトロゲーム風デザインサイトです。WordPressをCMSとして使用し、Next.js App Router (v15) でフロントエンドを構築しています。
+
+## 開発コマンド
+
+```bash
+# 開発サーバー起動
+npm run dev
+
+# ビルド
+npm run build
+
+# プロダクション起動
+npm run start
+
+# リント（ESLint）
+npm run lint
+
+# フォーマット（Prettier）
+npm run format
+
+# テスト実行
+npm run test
+
+# テスト（ウォッチモード）
+npm run test:watch
+```
+
+## アーキテクチャ
+
+### ディレクトリ構造
+
+- `src/app/` - Next.js App Router のページとレイアウト
+  - 動的ルート: `[slug]`, `[year]/[month]` など
+  - ISR対応: `next: { tags, revalidate }` を使用
+- `src/lib/wp.ts` - WordPress REST API クライアント
+  - Zodによる型安全なレスポンス検証
+  - エラーハンドリングとページネーション対応
+- `src/components/` - 共通コンポーネント
+
+### 主要な技術要素
+
+1. **データフェッチング**: WordPress REST API v2
+2. **型安全性**: Zod によるランタイム型検証
+3. **スタイリング**: Tailwind CSS + カスタムレトロデザイン
+4. **キャッシュ戦略**: ISR (Incremental Static Regeneration)
+   - 投稿一覧: 5分 (revalidate: 300)
+   - カテゴリー/タグ: 10分 (revalidate: 600)
+   - アーカイブ: 1時間 (revalidate: 3600)
+
+### 環境変数
+
+必須: `WORDPRESS_API_URL` - WordPress REST API のベースURL
+
+## コーディング規約
+
+### フォーマット
+
+- セミコロンなし
+- シングルクォート使用
+- インデント: 2スペース
+- 末尾カンマ: ES5準拠
+
+### TypeScript
+
+- strict mode 有効
+- パスエイリアス: `@/*` → `./src/*`
+
 ### GitHubにアクセスしたい時
 
 `gh` コマンドを使うこと
