@@ -99,10 +99,6 @@ export default async function HomePage() {
                       dangerouslySetInnerHTML={{ __html: post.title.rendered }}
                     />
                   </h2>
-                  <div
-                    className="text-gray-300 text-base mb-4 line-clamp-3"
-                    dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
-                  />
                   <div className="mt-auto pt-4 border-t-2 border-dashed border-gray-600 flex justify-between items-center text-sm text-gray-400">
                     <span>
                       {new Date(post.date).toLocaleDateString('ja-JP')}
@@ -180,12 +176,6 @@ export default async function HomePage() {
                         }}
                       />
                     </h2>
-                    <div
-                      className="text-gray-300 text-base mb-4 line-clamp-3"
-                      dangerouslySetInnerHTML={{
-                        __html: post.excerpt.rendered,
-                      }}
-                    />
                     <div className="mt-auto pt-4 border-t-2 border-dashed border-gray-600 flex justify-between items-center text-sm text-gray-400">
                       <span>
                         {new Date(post.date).toLocaleDateString('ja-JP')}
