@@ -69,7 +69,7 @@ export default async function CategoryPage({
                 )}
 
                 <div className={featuredImage ? 'md:w-2/3' : 'w-full'}>
-                  <h2 className="text-xl md:text-2xl mb-3">
+                  <h2 className="font-gothic text-xl md:text-2xl mb-3">
                     <Link
                       href={`/posts/${post.slug}`}
                       className="text-green-400 hover:text-green-300 transition-colors"

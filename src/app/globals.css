@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Noto+Sans+JP:wght@400;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,6 +17,10 @@
 @layer utilities {
   .font-press-start {
     font-family: 'Press Start 2P', cursive;
+  }
+
+  .font-gothic {
+    font-family: 'Noto Sans JP', sans-serif;
   }
 
   .text-shadow {
@@ -62,6 +66,7 @@
 /* WordPress content styling */
 .wp-content {
   @apply text-gray-300;
+  font-family: 'Noto Sans JP', sans-serif;
 }
 
 .wp-content h1,
@@ -70,7 +75,8 @@
 .wp-content h4,
 .wp-content h5,
 .wp-content h6 {
-  @apply text-yellow-200 font-press-start mb-4 mt-8;
+  @apply text-yellow-200 mb-4 mt-8;
+  font-family: 'Noto Sans JP', sans-serif;
 }
 
 .wp-content h1 {

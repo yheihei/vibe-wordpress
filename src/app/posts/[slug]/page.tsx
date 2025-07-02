@@ -68,7 +68,7 @@ export default async function PostPage({ params }: Props) {
             </Link>
           )}
           <h1
-            className="font-press-start text-3xl md:text-4xl text-yellow-300 my-4 text-shadow-sm"
+            className="font-gothic text-3xl md:text-4xl text-yellow-300 my-4 text-shadow-sm"
             dangerouslySetInnerHTML={{ __html: post.title.rendered }}
           />
           <p className="text-gray-400">
@@ -89,8 +89,8 @@ export default async function PostPage({ params }: Props) {
         )}
 
         <div
-          className="prose prose-invert prose-lg max-w-none
-            prose-headings:font-press-start prose-headings:text-yellow-300 
+          className="prose prose-invert prose-lg max-w-none font-gothic
+            prose-headings:font-gothic prose-headings:text-yellow-300 
             prose-h2:text-xl prose-h3:text-lg prose-h4:text-base
             prose-p:text-gray-300 prose-p:text-xl prose-p:leading-relaxed
             prose-a:text-green-400 prose-a:no-underline hover:prose-a:underline
