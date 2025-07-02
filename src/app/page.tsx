@@ -72,7 +72,7 @@ export default async function HomePage() {
             return (
               <div
                 key={post.id}
-                className="bg-slate-800 text-white border-4 border-black p-4 sm:p-6 shadow-[8px_8px_0_0_#1e293b] hover:shadow-[10px_10px_0_0_#1e293b] transition-all duration-200 h-full flex flex-col"
+                className="bg-slate-800 text-white border-4 border-black p-3 sm:p-4 shadow-[8px_8px_0_0_#1e293b] hover:shadow-[10px_10px_0_0_#1e293b] transition-all duration-200 h-full flex flex-col"
               >
                 {featuredImage && (
                   <Link href={`/posts/${post.slug}`}>
@@ -147,7 +147,7 @@ export default async function HomePage() {
               return (
                 <div
                   key={post.id}
-                  className="bg-slate-800 text-white border-4 border-black p-4 sm:p-6 shadow-[8px_8px_0_0_#1e293b] hover:shadow-[10px_10px_0_0_#1e293b] transition-all duration-200 h-full flex flex-col"
+                  className="bg-slate-800 text-white border-4 border-black p-3 sm:p-4 shadow-[8px_8px_0_0_#1e293b] hover:shadow-[10px_10px_0_0_#1e293b] transition-all duration-200 h-full flex flex-col"
                 >
                   {featuredImage && (
                     <Link href={`/posts/${post.slug}`}>
