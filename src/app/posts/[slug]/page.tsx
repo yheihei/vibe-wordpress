@@ -57,7 +57,7 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <div className="bg-slate-800 text-white border-4 border-black p-4 sm:p-6 shadow-[8px_8px_0_0_#1e293b]">
-      <article>
+      <article className="max-w-2xl mx-auto">
         <div className="border-b-4 border-dashed border-gray-600 pb-4 mb-4">
           {mainCategory && (
             <Link
@@ -84,7 +84,7 @@ export default async function PostPage({ params }: Props) {
           <img
             src={featuredImage}
             alt={post.title.rendered.replace(/<[^>]*>/g, '')}
-            className="w-full max-w-2xl mx-auto object-cover border-4 border-black my-6"
+            className="w-full object-cover border-4 border-black my-6"
           />
         )}
 
