@@ -398,6 +398,19 @@ export function getPostTags(post: WPPost): any[] {
   return tags.filter((tag: any) => tag.taxonomy === 'post_tag')
 }
 
+// 再帰的に子カテゴリーを取得するヘルパー関数
+function getAllDescendantCategories(categoryId: number, allCategories: any[]): number[] {
+  const directChildren = allCategories.filter(cat => cat.parent === categoryId)
+  const descendantIds = directChildren.map(cat => cat.id)
+  
+  // 各子カテゴリーの子孫も再帰的に取得
+  directChildren.forEach(child => {
+    descendantIds.push(...getAllDescendantCategories(child.id, allCategories))
+  })
+  
+  return descendantIds
+}
+
 // 親カテゴリーとその子カテゴリーの投稿を取得
 export async function fetchPostsByCategoryWithChildren(
   slug: string,
@@ -440,15 +453,13 @@ export async function fetchPostsByCategoryWithChildren(
     }
   }
   
-  // 子カテゴリーを探す
-  const childCategories = allCategories.filter(
-    (cat: any) => cat.parent === parentCategory.id
-  )
+  // 子カテゴリーを再帰的に取得
+  const descendantIds = getAllDescendantCategories(parentCategory.id, allCategories)
   
-  // 親カテゴリーと子カテゴリーのIDを集める
+  // 親カテゴリーと全ての子孫カテゴリーのIDを集める
   const categoryIds = [
     parentCategory.id,
-    ...childCategories.map((cat: any) => cat.id),
+    ...descendantIds,
   ]
   
   // カテゴリーIDをカンマ区切りで結合
