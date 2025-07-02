@@ -91,18 +91,22 @@ export default async function PostPage({ params }: Props) {
         <div
           className="prose prose-invert prose-lg max-w-none font-gothic
             prose-headings:font-gothic prose-headings:text-yellow-300 
-            prose-h2:text-xl prose-h3:text-lg prose-h4:text-base
-            prose-p:text-gray-300 prose-p:text-xl prose-p:leading-relaxed
+            prose-h2:text-2xl prose-h3:text-xl prose-h4:text-lg
+            prose-h2:mt-12 prose-h3:mt-10 prose-h4:mt-8
+            prose-p:text-gray-300 prose-p:text-xl prose-p:leading-loose prose-p:mb-6
             prose-a:text-green-400 prose-a:no-underline hover:prose-a:underline
             prose-strong:text-white prose-strong:font-bold
             prose-code:bg-gray-800 prose-code:text-green-400 prose-code:px-2 prose-code:py-1
             prose-pre:bg-gray-900 prose-pre:border-2 prose-pre:border-black
-            prose-blockquote:border-l-4 prose-blockquote:border-yellow-300 prose-blockquote:pl-4 prose-blockquote:italic
-            prose-ul:list-disc prose-ul:list-inside
-            prose-ol:list-decimal prose-ol:list-inside
+            prose-blockquote:border-l-4 prose-blockquote:border-yellow-300 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:mb-10
+            prose-ul:list-disc prose-ul:ml-6 prose-ul:pl-0 prose-ul:mb-6
+            prose-ol:list-decimal prose-ol:ml-6 prose-ol:pl-0 prose-ol:mb-6
             prose-li:text-gray-300
-            prose-img:border-4 prose-img:border-black
-            space-y-4"
+            prose-img:border-4 prose-img:border-black prose-img:my-8
+            [&_p+h2]:!mt-16 [&_p+h3]:!mt-14 [&_p+h4]:!mt-12
+            [&_ul+h2]:!mt-16 [&_ul+h3]:!mt-14 [&_ul+h4]:!mt-12
+            [&_ol+h2]:!mt-16 [&_ol+h3]:!mt-14 [&_ol+h4]:!mt-12
+            [&_blockquote+h2]:!mt-16 [&_blockquote+h3]:!mt-14 [&_blockquote+h4]:!mt-12"
           dangerouslySetInnerHTML={{ __html: post.content.rendered }}
         />
       </article>
