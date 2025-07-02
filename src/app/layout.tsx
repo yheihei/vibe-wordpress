@@ -6,6 +6,10 @@ export const metadata: Metadata = {
   title: 'Y-Game',
   description:
     'The digital playground of わいへい (Waihei). I build games, explore AI, and write about Vibe Coding.',
+  icons: {
+    icon: '/favicon.jpg',
+    apple: '/favicon.jpg',
+  },
 }
 
 export default function RootLayout({
