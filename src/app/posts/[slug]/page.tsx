@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!post) {
     return {
-      title: '記事が見つかりません | Vibe Coding Lair',
+      title: '記事が見つかりません | Y-Game',
     }
   }
 
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .slice(0, 160)
 
   return {
-    title: `${plainTitle} | Vibe Coding Lair`,
+    title: `${plainTitle} | Y-Game`,
     description: plainExcerpt,
     openGraph: {
       title: plainTitle,

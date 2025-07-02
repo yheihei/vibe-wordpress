@@ -22,7 +22,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${page.title.rendered} | Vibe Coding Lair`,
+    title: `${page.title.rendered} | Y-Game`,
     description: page.excerpt.rendered.replace(/<[^>]*>/g, '').trim(),
   }
 }

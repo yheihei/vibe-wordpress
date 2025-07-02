@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 
   return {
-    title: `${page.title.rendered} | Vibe Coding Lair`,
+    title: `${page.title.rendered} | Y-Game`,
     description: page.excerpt.rendered.replace(/<[^>]*>/g, '').trim(),
   }
 }

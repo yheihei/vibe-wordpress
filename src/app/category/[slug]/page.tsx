@@ -42,7 +42,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `Category: ${result.categoryName || slug} | Vibe Coding Lair`,
+    title: `Category: ${result.categoryName || slug} | Y-Game`,
     description: `${result.categoryName || slug}カテゴリの記事一覧`,
   }
 }

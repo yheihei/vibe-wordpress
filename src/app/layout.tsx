@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Vibe Coding Lair',
+  title: 'Y-Game',
   description:
     'The digital playground of わいへい (Waihei). I build games, explore AI, and write about Vibe Coding.',
 }

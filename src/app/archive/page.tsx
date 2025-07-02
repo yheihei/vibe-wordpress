@@ -9,7 +9,7 @@ interface ArchivePageProps {
 }
 
 export const metadata: Metadata = {
-  title: 'Archive | Vibe Coding Lair',
+  title: 'Archive | Y-Game',
   description: 'すべての記事一覧',
 }
 
