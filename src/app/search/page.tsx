@@ -1,4 +1,4 @@
-import { searchPosts } from '@/lib/wp'
+import { searchPosts, getFeaturedImageUrl } from '@/lib/wp'
 import { SearchForm } from '@/components/SearchForm'
 import Link from 'next/link'
 
@@ -34,40 +34,60 @@ export default async function SearchPage({
       <div className="space-y-8">
         {posts.length > 0 ? (
           <>
-            {posts.map((post) => (
-              <article
-                key={post.id}
-                className="border-l-4 border-green-400 pl-4 py-2 hover:border-yellow-200 transition-colors"
-              >
-                <h2 className="text-xl md:text-2xl font-bold mb-2">
-                  <Link
-                    href={`/posts/${post.slug}`}
-                    className="text-green-400 hover:text-yellow-200 transition-colors"
-                  >
-                    <span
-                      dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-                    />
-                  </Link>
-                </h2>
-
-                <time className="text-sm text-gray-500 font-mono">
-                  {new Date(post.date).toLocaleDateString('ja-JP')}
-                </time>
-
-                <div
-                  className="mt-3 text-gray-300 line-clamp-3"
-                  dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
-                />
-
-                <Link
-                  href={`/posts/${post.slug}`}
-                  className="inline-block mt-3 text-yellow-200 hover:text-yellow-100 
-                           font-mono text-sm transition-colors"
+            {posts.map((post) => {
+              const featuredImage = getFeaturedImageUrl(post)
+              
+              return (
+                <article
+                  key={post.id}
+                  className="bg-black border-4 border-gray-800 p-6 hover:border-green-400 transition-all duration-300"
                 >
-                  &gt;&gt; Read More
-                </Link>
-              </article>
-            ))}
+                  <div className="flex flex-col md:flex-row gap-6">
+                    {featuredImage && (
+                      <div className="md:w-1/3">
+                        <Link href={`/posts/${post.slug}`}>
+                          <img
+                            src={featuredImage}
+                            alt=""
+                            className="w-full aspect-video md:h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                          />
+                        </Link>
+                      </div>
+                    )}
+                    
+                    <div className={featuredImage ? 'md:w-2/3' : 'w-full'}>
+                      <h2 className="text-xl md:text-2xl font-bold mb-2">
+                        <Link
+                          href={`/posts/${post.slug}`}
+                          className="text-green-400 hover:text-yellow-200 transition-colors"
+                        >
+                          <span
+                            dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+                          />
+                        </Link>
+                      </h2>
+
+                      <time className="text-sm text-gray-500 font-mono">
+                        {new Date(post.date).toLocaleDateString('ja-JP')}
+                      </time>
+
+                      <div
+                        className="mt-3 text-gray-300 line-clamp-3"
+                        dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
+                      />
+
+                      <Link
+                        href={`/posts/${post.slug}`}
+                        className="inline-block mt-3 text-yellow-200 hover:text-yellow-100 
+                                 font-mono text-sm transition-colors"
+                      >
+                        &gt;&gt; Read More
+                      </Link>
+                    </div>
+                  </div>
+                </article>
+              )
+            })}
 
             {/* Pagination */}
             {pagination.totalPages > 1 && (

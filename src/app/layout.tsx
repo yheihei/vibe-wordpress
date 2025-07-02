@@ -1,5 +1,5 @@
-import type { Metadata } from 'next'
 import { Header } from '@/components/Header'
+import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -27,7 +27,7 @@ export default function RootLayout({
           {/* Footer */}
           <footer className="bg-gray-900 border-t-4 border-black mt-12 py-6">
             <div className="container mx-auto px-4 text-center text-gray-500">
-              <p>&copy; 2024 わいへい (Waihei). All rights reserved.</p>
+              <p>&copy; 2025 わいへい (yhei_hei). All rights reserved.</p>
               <p className="mt-2 text-sm">Powered by Retro Vibes & Code</p>
             </div>
           </footer>

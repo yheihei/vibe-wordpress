@@ -10,7 +10,7 @@ export function Header() {
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8">
             <Link href="/" className="text-center sm:text-left">
               <h1 className="font-press-start text-xl md:text-2xl text-green-400 text-shadow hover:text-green-300 transition-colors">
-                Vibe Coding Lair
+                Y-Game
               </h1>
             </Link>
             <nav>

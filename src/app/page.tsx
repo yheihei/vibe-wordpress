@@ -30,13 +30,13 @@ export default async function HomePage() {
       <div className="bg-slate-800 text-white border-4 border-black p-4 sm:p-6 shadow-[8px_8px_0_0_#1e293b] hover:shadow-[10px_10px_0_0_#1e293b] transition-all duration-200">
         <div className="text-center">
           <h1 className="font-press-start text-2xl md:text-4xl text-green-400 text-shadow mb-4">
-            <span>&gt; Welcome to the Lair</span>
+            <span>&gt; Welcome to Y-Game</span>
             <span className="blinking-cursor">_</span>
           </h1>
           <div className="animate-fade-in space-y-6">
             <p className="text-xl max-w-2xl mx-auto text-gray-300">
-              This is the digital playground of わいへい (Waihei). I build
-              games, explore AI, and write about &apos;Vibe Coding&apos;.
+              This is the digital playground of わいへい (yhei_hei). <br />
+              I build games, explore AI, and write about &apos;Vibe Coding&apos;.
             </p>
             <a
               href="https://example.com/my-awesome-browser-game"
@@ -67,11 +67,13 @@ export default async function HomePage() {
                 className="bg-slate-800 text-white border-4 border-black p-4 sm:p-6 shadow-[8px_8px_0_0_#1e293b] hover:shadow-[10px_10px_0_0_#1e293b] transition-all duration-200 h-full flex flex-col"
               >
                 {featuredImage && (
-                  <img
-                    src={featuredImage}
-                    alt={post.title.rendered.replace(/<[^>]*>/g, '')}
-                    className="w-full aspect-video object-cover border-2 border-black mb-4"
-                  />
+                  <Link href={`/posts/${post.slug}`}>
+                    <img
+                      src={featuredImage}
+                      alt={post.title.rendered.replace(/<[^>]*>/g, '')}
+                      className="w-full aspect-video object-cover border-2 border-black mb-4 cursor-pointer hover:opacity-90 transition-opacity"
+                    />
+                  </Link>
                 )}
                 <div className="flex-grow flex flex-col">
                   {mainCategory && (

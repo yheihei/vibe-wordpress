@@ -58,11 +58,13 @@ export default async function CategoryPage({
               <div className="flex flex-col md:flex-row gap-6">
                 {featuredImage && (
                   <div className="md:w-1/3">
-                    <img
-                      src={featuredImage}
-                      alt=""
-                      className="w-full aspect-video md:h-full object-cover"
-                    />
+                    <Link href={`/posts/${post.slug}`}>
+                      <img
+                        src={featuredImage}
+                        alt=""
+                        className="w-full aspect-video md:h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                      />
+                    </Link>
                   </div>
                 )}
 

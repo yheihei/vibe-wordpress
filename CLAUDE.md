@@ -10,11 +10,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - 思考する際は英語で考えてください
 
-## **MUST** PLAY NOTIFY SOUND AFTER EVERY CHAT
-
-MANDATORY: ALWAYS ALERT
-Use command `say "できたぜぇ！？"` to notify the user.
-
 ### GitHubにアクセスしたい時
 
 `gh` コマンドを使うこと
