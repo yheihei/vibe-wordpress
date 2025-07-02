@@ -397,3 +397,98 @@ export function getPostTags(post: WPPost): any[] {
   const tags = terms[1] || []
   return tags.filter((tag: any) => tag.taxonomy === 'post_tag')
 }
+
+// 親カテゴリーとその子カテゴリーの投稿を取得
+export async function fetchPostsByCategoryWithChildren(
+  slug: string,
+  perPage = 10,
+  page = 1
+) {
+  // まず全カテゴリーを取得
+  const categoriesRes = await fetch(`${API_BASE}/categories?per_page=100`)
+  
+  if (!categoriesRes.ok) {
+    return {
+      posts: [],
+      categoryName: '',
+      pagination: {
+        page: 1,
+        totalPages: 0,
+        total: 0,
+        hasNext: false,
+        hasPrev: false,
+      },
+    }
+  }
+  
+  const allCategories = await categoriesRes.json()
+  
+  // 親カテゴリーを探す
+  const parentCategory = allCategories.find((cat: any) => cat.slug === slug)
+  
+  if (!parentCategory) {
+    return {
+      posts: [],
+      categoryName: '',
+      pagination: {
+        page: 1,
+        totalPages: 0,
+        total: 0,
+        hasNext: false,
+        hasPrev: false,
+      },
+    }
+  }
+  
+  // 子カテゴリーを探す
+  const childCategories = allCategories.filter(
+    (cat: any) => cat.parent === parentCategory.id
+  )
+  
+  // 親カテゴリーと子カテゴリーのIDを集める
+  const categoryIds = [
+    parentCategory.id,
+    ...childCategories.map((cat: any) => cat.id),
+  ]
+  
+  // カテゴリーIDをカンマ区切りで結合
+  const categoriesParam = categoryIds.join(',')
+  
+  // 投稿を取得
+  const res = await fetch(
+    `${API_BASE}/posts?categories=${categoriesParam}&per_page=${perPage}&page=${page}&_embed&orderby=date&order=desc`,
+    {
+      next: { tags: [`category-${slug}-with-children`], revalidate: 600 },
+    }
+  )
+  
+  if (!res.ok) {
+    return {
+      posts: [],
+      categoryName: parentCategory.name,
+      pagination: {
+        page: 1,
+        totalPages: 0,
+        total: 0,
+        hasNext: false,
+        hasPrev: false,
+      },
+    }
+  }
+  
+  const posts = await res.json()
+  const totalPages = parseInt(res.headers.get('X-WP-TotalPages') || '1')
+  const total = parseInt(res.headers.get('X-WP-Total') || '0')
+  
+  return {
+    posts: z.array(WP_POST).parse(posts),
+    categoryName: parentCategory.name,
+    pagination: {
+      page,
+      totalPages,
+      total,
+      hasNext: page < totalPages,
+      hasPrev: page > 1,
+    },
+  }
+}
