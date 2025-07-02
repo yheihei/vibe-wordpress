@@ -1,4 +1,4 @@
-import { fetchPostsByCategory, getFeaturedImageUrl } from '@/lib/wp'
+import { fetchPostsByCategory, fetchPostsByCategoryWithChildren, getFeaturedImageUrl, fetchCategories } from '@/lib/wp'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
@@ -10,15 +10,35 @@ interface CategoryPageProps {
   searchParams: Promise<{ page?: string }>
 }
 
+interface CategoryWithPosts {
+  posts: any[]
+  categoryName: string
+  pagination: {
+    page: number
+    totalPages: number
+    total: number
+    hasNext: boolean
+    hasPrev: boolean
+  }
+  childCategories?: any[]
+}
+
 export async function generateMetadata({
   params,
 }: CategoryPageProps): Promise<Metadata> {
   const { slug } = await params
-  const { categoryName } = await fetchPostsByCategory(slug, 10, 1)
+  
+  // まず通常のカテゴリー取得を試みる
+  let result = await fetchPostsByCategory(slug, 10, 1)
+  
+  // 投稿が0件の場合、子カテゴリーを含めて取得を試みる
+  if (result.posts.length === 0) {
+    result = await fetchPostsByCategoryWithChildren(slug, 10, 1)
+  }
 
   return {
-    title: `Category: ${categoryName || slug} | Vibe Coding Lair`,
-    description: `${categoryName || slug}カテゴリの記事一覧`,
+    title: `Category: ${result.categoryName || slug} | Vibe Coding Lair`,
+    description: `${result.categoryName || slug}カテゴリの記事一覧`,
   }
 }
 
@@ -30,15 +50,25 @@ export default async function CategoryPage({
   const { page: pageParam } = await searchParams
   const page = parseInt(pageParam || '1', 10)
 
-  const { posts, categoryName, pagination } = await fetchPostsByCategory(
-    slug,
-    10,
-    page
-  )
+  // まず通常のカテゴリー取得を試みる
+  let result = await fetchPostsByCategory(slug, 10, page) as CategoryWithPosts
+  
+  // 投稿が0件かつ1ページ目の場合、子カテゴリーを含めて取得を試みる
+  if (result.posts.length === 0 && page === 1) {
+    result = await fetchPostsByCategoryWithChildren(slug, 10, page) as CategoryWithPosts
+  }
 
-  if (!posts.length && page === 1) {
+  const { posts, categoryName, pagination } = result
+
+  // カテゴリー名が空の場合のみ404を返す（カテゴリー自体が存在しない）
+  if (!categoryName) {
     notFound()
   }
+
+  // 子カテゴリーを取得
+  const categories = await fetchCategories()
+  const currentCategory = categories.find(cat => cat.slug === slug)
+  const childCategories = currentCategory ? categories.filter(cat => cat.parent === currentCategory.id) : []
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -46,8 +76,33 @@ export default async function CategoryPage({
         Category: {categoryName}
       </h1>
 
-      <div className="grid gap-8">
-        {posts.map((post) => {
+      {posts.length === 0 ? (
+        <div className="bg-black border-4 border-gray-800 p-8 text-center">
+          <p className="text-gray-400 mb-6">
+            このカテゴリーまたはサブカテゴリーにはまだ記事がありません。
+          </p>
+          {childCategories.length > 0 && (
+            <div className="mt-8">
+              <h2 className="font-press-start text-lg text-yellow-200 mb-4">
+                SUBCATEGORIES
+              </h2>
+              <div className="flex flex-wrap gap-4 justify-center">
+                {childCategories.map((child) => (
+                  <Link
+                    key={child.id}
+                    href={`/category/${child.slug}`}
+                    className="inline-block px-4 py-2 bg-gray-800 text-green-400 hover:bg-gray-700 transition-colors font-bold border-2 border-green-400"
+                  >
+                    {child.name} ({child.count})
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="grid gap-8">
+          {posts.map((post) => {
           const featuredImage = getFeaturedImageUrl(post)
 
           return (
@@ -106,7 +161,8 @@ export default async function CategoryPage({
             </article>
           )
         })}
-      </div>
+        </div>
+      )}
 
       {/* ページネーション */}
       {pagination.totalPages > 1 && (
