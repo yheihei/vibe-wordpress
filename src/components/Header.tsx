@@ -39,6 +39,16 @@ export function Header() {
                     About
                   </Link>
                 </li>
+                <li>
+                  <a
+                    href="https://qiita.com/yheihei"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-yellow-200 transition-colors"
+                  >
+                    Qiita
+                  </a>
+                </li>
               </ul>
             </nav>
           </div>
