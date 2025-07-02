@@ -92,7 +92,7 @@ export default async function HomePage() {
                       {mainCategory.name}
                     </Link>
                   )}
-                  <h2 className="font-gothic text-lg text-yellow-300 my-2 text-shadow-sm flex-grow">
+                  <h2 className="font-gothic text-xl md:text-2xl text-yellow-300 my-2 text-shadow-sm flex-grow">
                     <Link
                       href={`/posts/${post.slug}`}
                       className="hover:text-yellow-200"
@@ -171,7 +171,7 @@ export default async function HomePage() {
                         {mainCategory.name}
                       </Link>
                     )}
-                    <h2 className="font-gothic text-lg text-yellow-300 my-2 text-shadow-sm flex-grow">
+                    <h2 className="font-gothic text-xl md:text-2xl text-yellow-300 my-2 text-shadow-sm flex-grow">
                       <Link
                         href={`/posts/${post.slug}`}
                         className="hover:text-yellow-200"
