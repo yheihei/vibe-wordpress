@@ -53,7 +53,7 @@
 
 ### デザイン
 
-@.docs/design 配下。スケルトンのhtmlとCSSを置いたので、これに従って作ること
+@.docs/design/html 配下。スケルトンのhtmlとCSSを置いたので、これに従って作ること
 
 ## 3. WordPress 側設定
 
