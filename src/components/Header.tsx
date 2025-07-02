@@ -25,7 +25,7 @@ export function Header() {
                 </li>
                 <li>
                   <Link
-                    href="/pages/archive"
+                    href="/archive"
                     className="hover:text-yellow-200 transition-colors"
                   >
                     Archive
