@@ -4,6 +4,7 @@ const WP_POST = z.object({
   id: z.number(),
   slug: z.string(),
   date: z.string(),
+  modified: z.string(),
   title: z.object({ rendered: z.string() }),
   content: z.object({ rendered: z.string() }),
   excerpt: z.object({ rendered: z.string() }),
@@ -11,6 +12,7 @@ const WP_POST = z.object({
 })
 
 export type WPPost = z.infer<typeof WP_POST>
+export type Post = WPPost
 
 const WP_CATEGORY = z.object({
   id: z.number(),
@@ -373,6 +375,15 @@ export async function fetchPostsByDate(
   }
 }
 
+const WP_TAG = z.object({
+  id: z.number(),
+  name: z.string(),
+  slug: z.string(),
+  count: z.number(),
+})
+
+export type WPTag = z.infer<typeof WP_TAG>
+
 // タグ一覧を取得
 export async function fetchTags() {
   const res = await fetch(`${API_BASE}/tags?per_page=100`, {
@@ -385,7 +396,37 @@ export async function fetchTags() {
   }
 
   const tags = await res.json()
-  return tags
+  return z.array(WP_TAG).parse(tags)
+}
+
+// 全ての投稿を取得（サイトマップ用）
+export async function fetchAllPosts() {
+  const posts: WPPost[] = []
+  let page = 1
+  let hasMore = true
+
+  while (hasMore) {
+    const res = await fetch(
+      `${API_BASE}/posts?per_page=100&page=${page}&orderby=date&order=desc`,
+      {
+        next: { tags: ['all-posts'], revalidate: 3600 },
+      }
+    )
+
+    if (!res.ok) {
+      console.error('Failed to fetch all posts:', res.status, res.statusText)
+      break
+    }
+
+    const pagePosts = await res.json()
+    posts.push(...z.array(WP_POST).parse(pagePosts))
+
+    const totalPages = parseInt(res.headers.get('X-WP-TotalPages') || '1')
+    hasMore = page < totalPages
+    page++
+  }
+
+  return posts
 }
 
 // タグ情報を取得するヘルパー関数
