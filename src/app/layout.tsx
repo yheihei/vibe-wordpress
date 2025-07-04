@@ -1,15 +1,20 @@
 import { Header } from '@/components/Header'
-import type { Metadata } from 'next'
+import { JsonLd } from '@/components/JsonLd'
+import { constructMetadata } from '@/lib/metadata'
+import {
+  generateOrganizationSchema,
+  generateWebSiteSchema,
+} from '@/lib/structured-data'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
-export const metadata: Metadata = {
-  title: 'Y-Game',
-  description:
-    'The digital playground of わいへい (Waihei). I build games, explore AI, and write about Vibe Coding.',
-  icons: {
-    icon: '/favicon.jpg',
-    apple: '/favicon.jpg',
-  },
+export const metadata: Metadata = constructMetadata()
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#111827',
 }
 
 export default function RootLayout({
@@ -20,6 +25,8 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className="bg-gray-900 text-white">
+        <JsonLd data={generateWebSiteSchema()} />
+        <JsonLd data={generateOrganizationSchema()} />
         <div className="flex flex-col min-h-screen bg-gray-900 text-lg text-gray-300">
           <Header />
 
