@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## 本サイトの目的
+
+@.docs/prd/本サイトの目的.md
+
 ## 応答のルール
 
 - 常に日本語で応答してください。コード部分はそのままにしてください。
