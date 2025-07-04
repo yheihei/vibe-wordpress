@@ -17,6 +17,7 @@ import {
 import { TableOfContents } from '@/components/TableOfContents'
 import { ArticleSummary } from '@/components/ArticleSummary'
 import { RelatedPosts } from '@/components/RelatedPosts'
+import { ShareButton } from '@/components/ShareButton'
 import {
   addHeadingIds,
   extractSummary,
@@ -183,6 +184,11 @@ export default async function PostPage({ params }: Props) {
               [&_blockquote+h2]:!mt-16 [&_blockquote+h3]:!mt-14 [&_blockquote+h4]:!mt-12"
             dangerouslySetInnerHTML={{ __html: processedContent }}
             aria-label="記事本文"
+          />
+
+          <ShareButton
+            url={postUrl}
+            title={post.title.rendered.replace(/<[^>]*>/g, '')}
           />
 
           <RelatedPosts posts={relatedPosts} currentPostId={post.id} />
