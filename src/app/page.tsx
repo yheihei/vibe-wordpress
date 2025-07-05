@@ -6,6 +6,7 @@ import {
   getPostCategories,
 } from '@/lib/wp'
 import Link from 'next/link'
+import HeroHeader from '@/components/HeroHeader'
 
 export const revalidate = 300 // 5分毎にISR
 
@@ -33,30 +34,11 @@ export default async function HomePage() {
   }
 
   return (
-    <div className="space-y-20">
-      {/* Welcome Banner */}
-      <div className="bg-slate-800 text-white border-4 border-black p-12 shadow-[8px_8px_0_0_#1e293b] hover:shadow-[10px_10px_0_0_#1e293b] transition-all duration-200">
-        <div className="text-center">
-          <h1 className="font-press-start text-2xl md:text-4xl text-green-400 text-shadow mb-4">
-            <span>&gt; Welcome to Y-Game</span>
-            <span className="blinking-cursor">_</span>
-          </h1>
-          <div className="animate-fade-in space-y-6">
-            <p className="text-xl max-w-2xl mx-auto text-gray-300">
-              This is the digital playground of わいへい (yhei_hei). <br />I
-              build games, explore AI, and write about &apos;Vibe Coding&apos;.
-            </p>
-            <a
-              href="https://example.com/my-awesome-browser-game"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block font-press-start text-lg bg-yellow-400 text-black px-8 py-4 border-4 border-black shadow-[6px_6px_0_0_#000] hover:shadow-[4px_4px_0_0_#000] hover:bg-yellow-300 active:shadow-none active:translate-x-1 active:translate-y-1 transition-all transform"
-            >
-              Play My Game!
-            </a>
-          </div>
-        </div>
-      </div>
+    <>
+      {/* Hero Header */}
+      <HeroHeader />
+
+      <div className="space-y-20 px-4 md:px-8 lg:px-12">
 
       {/* Latest Posts */}
       <div className="animate-fade-in">
@@ -223,6 +205,7 @@ export default async function HomePage() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </>
   )
 }
