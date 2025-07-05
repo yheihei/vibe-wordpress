@@ -82,7 +82,7 @@
     rgba(0, 0, 0, 0.3) 4px
   );
   pointer-events: none;
-  z-index: 1;
+  z-index: 100;
 }
 
 /* Glitch effect */
@@ -234,7 +234,7 @@
   height: 100%;
   background: rgba(18, 16, 16, 0.1);
   opacity: 0.5;
-  z-index: 1;
+  z-index: 99;
   pointer-events: none;
   animation: flicker 0.15s infinite;
 }

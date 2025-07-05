@@ -163,7 +163,7 @@ export default function HeroHeader() {
       </div>
 
       {/* Main content */}
-      <div className="relative z-20 flex flex-col items-center justify-center min-h-screen px-2 md:px-4">
+      <div className="relative z-[101] flex flex-col items-center justify-center min-h-screen px-2 md:px-4">
         {/* Logo/Title */}
         <div className="text-center mb-12">
           <h1 className="font-press-start text-5xl md:text-6xl lg:text-7xl mb-4">
@@ -203,11 +203,11 @@ export default function HeroHeader() {
         </div>
 
         {/* Developer signature */}
-        <div className="absolute bottom-20 left-8 font-vt323 text-lg text-green-400">
+        <div className="absolute bottom-20 left-8 font-vt323 text-lg text-green-400 z-[101]">
           <div>Developed by Y-Game</div>
         </div>
 
-        <div className="absolute bottom-20 right-8 font-vt323 text-lg text-yellow-300">
+        <div className="absolute bottom-20 right-8 font-vt323 text-lg text-yellow-300 z-[101]">
           <div>© 2025 VLCNP STORY</div>
         </div>
       </div>
@@ -250,11 +250,11 @@ export default function HeroHeader() {
       </div>
 
       {/* Title area */}
-      <div className="absolute top-8 left-8 font-vt323 text-lg text-yellow-300">
+      <div className="absolute top-8 left-8 font-vt323 text-lg text-yellow-300 z-[101]">
         <div>RETRO GAME DEVELOPER</div>
       </div>
 
-      <div className="absolute top-8 right-8 font-vt323 text-lg text-green-400">
+      <div className="absolute top-8 right-8 font-vt323 text-lg text-green-400 z-[101]">
         <div>EST. 2025</div>
       </div>
     </section>
