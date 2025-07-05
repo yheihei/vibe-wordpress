@@ -64,10 +64,62 @@ npm run start
 
 ### Vercelへのデプロイ
 
-1. GitHubにプッシュ
-2. Vercelでプロジェクトをインポート
-3. 環境変数を設定
-4. デプロイ
+#### 1. Vercelアカウント作成
+
+1. [Vercel公式サイト](https://vercel.com)にアクセス
+2. 「Sign Up」または「Get Started」をクリック
+3. **GitHubアカウントで登録**（推奨）
+   - 「Continue with GitHub」をクリック
+   - GitHubにログイン後、「Authorize Vercel」で許可
+4. Team名を入力（個人の場合は自分の名前でOK）
+5. 無料プランの「Hobby」を選択
+
+#### 2. プロジェクトのインポート
+
+1. Vercelダッシュボードで「Add New...」→「Project」
+2. GitHubリポジトリから`vibe-wordpress`を選択して「Import」
+3. 初回の場合は「Configure GitHub App」でリポジトリへのアクセスを許可
+
+#### 3. プロジェクト設定
+
+1. **Framework Preset**: 自動的に「Next.js」が検出される（そのまま）
+2. **環境変数の設定**（重要）
+   - 「Environment Variables」セクションで以下を追加：
+   ```
+   Name: WORDPRESS_API_URL
+   Value: https://your-wordpress-site.com/wp-json/wp/v2
+   ```
+3. **ビルド設定**（デフォルトのまま）
+   - Build Command: `npm run build`
+   - Output Directory: `.next`
+   - Install Command: `npm install`
+
+#### 4. デプロイ実行
+
+1. 設定完了後「Deploy」ボタンをクリック
+2. 約2-5分でデプロイ完了
+3. 自動生成されるURL：
+   - `https://your-project.vercel.app`（プロダクション）
+   - `https://your-project-git-main.vercel.app`（ブランチ別）
+   - `https://your-project-abc123.vercel.app`（デプロイ別）
+
+#### 5. カスタムドメイン設定（オプション）
+
+1. プロジェクト設定 → 「Domains」→「Add Domain」
+2. 以下のいずれかのDNSレコードを設定：
+   - CNAME: `cname.vercel-dns.com`
+   - A レコード: `76.76.21.21`
+
+#### 6. 自動デプロイ設定
+
+- **mainブランチ**へのpushで自動デプロイ
+- **プルリクエスト**でプレビューデプロイ（固有URL生成）
+
+#### トラブルシューティング
+
+- **ビルドエラー**: `WORDPRESS_API_URL`が正しく設定されているか確認
+- **404エラー**: WordPressのREST APIが有効か確認
+- **型エラー**: `npm run build`をローカルで実行して事前確認
 
 ## WordPress側の設定
 
