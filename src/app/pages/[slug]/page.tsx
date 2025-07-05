@@ -36,16 +36,18 @@ export default async function Page({ params }: PageProps) {
   }
 
   return (
-    <article className="prose prose-lg prose-invert mx-auto max-w-4xl">
-      <h1
-        className="font-press-start text-3xl md:text-4xl text-yellow-200 mb-8 text-shadow"
-        dangerouslySetInnerHTML={{ __html: page.title.rendered }}
-      />
+    <div className="container mx-auto px-4 py-8">
+      <article className="prose prose-lg prose-invert mx-auto max-w-4xl">
+        <h1
+          className="font-press-start text-3xl md:text-4xl text-yellow-200 mb-8 text-shadow"
+          dangerouslySetInnerHTML={{ __html: page.title.rendered }}
+        />
 
-      <div
-        className="wp-content text-gray-300 space-y-6"
-        dangerouslySetInnerHTML={{ __html: page.content.rendered }}
-      />
-    </article>
+        <div
+          className="wp-content text-gray-300 space-y-6"
+          dangerouslySetInnerHTML={{ __html: page.content.rendered }}
+        />
+      </article>
+    </div>
   )
 }

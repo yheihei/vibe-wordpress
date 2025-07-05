@@ -31,9 +31,7 @@ export default function RootLayout({
           <HeaderWrapper />
 
           {/* Main Content */}
-          <main className="flex-grow container mx-auto px-4 py-8">
-            {children}
-          </main>
+          <main className="flex-grow">{children}</main>
 
           {/* Footer */}
           <footer className="bg-gray-900 border-t-4 border-black mt-12 py-6">

@@ -20,7 +20,7 @@ export default async function ArchivePage({ searchParams }: ArchivePageProps) {
   const { posts, pagination } = await fetchLatestPosts(10, page)
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="container mx-auto px-4 py-8">
       <h1 className="font-press-start text-2xl md:text-3xl text-yellow-200 mb-8 text-shadow">
         Archive
       </h1>
