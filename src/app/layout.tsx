@@ -1,4 +1,4 @@
-import { Header } from '@/components/Header'
+import { HeaderWrapper } from '@/components/HeaderWrapper'
 import { JsonLd } from '@/components/JsonLd'
 import { constructMetadata } from '@/lib/metadata'
 import {
@@ -28,7 +28,7 @@ export default function RootLayout({
         <JsonLd data={generateWebSiteSchema()} />
         <JsonLd data={generateOrganizationSchema()} />
         <div className="flex flex-col min-h-screen bg-gray-900 text-lg text-gray-300">
-          <Header />
+          <HeaderWrapper />
 
           {/* Main Content */}
           <main className="flex-grow container mx-auto px-4 py-8">

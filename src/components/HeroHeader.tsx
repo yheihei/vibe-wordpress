@@ -1,3 +1,5 @@
+'use client'
+
 export default function HeroHeader() {
   return (
     <section className="relative min-h-screen overflow-hidden crt scanlines" style={{ isolation: 'isolate' }}>
@@ -256,6 +258,25 @@ export default function HeroHeader() {
 
       <div className="absolute top-8 right-8 font-vt323 text-lg text-green-400 z-[101]">
         <div>EST. 2025</div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <div 
+        className="scroll-indicator"
+        onClick={() => {
+          window.scrollTo({
+            top: window.innerHeight,
+            behavior: 'smooth'
+          })
+        }}
+      >
+        <div className="text-center">
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-green-400 text-2xl animate-pulse">▼</span>
+            <span className="text-green-400 text-xl animate-pulse" style={{ animationDelay: '0.2s' }}>▼</span>
+            <span className="text-green-400 text-lg animate-pulse" style={{ animationDelay: '0.4s' }}>▼</span>
+          </div>
+        </div>
       </div>
     </section>
   )
