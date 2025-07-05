@@ -7,7 +7,7 @@ import { useScrollVisibility } from '@/hooks/useScrollVisibility'
 export function HeaderWrapper() {
   const pathname = usePathname()
   const isHomePage = pathname === '/'
-  
+
   const { isHeaderMounted, headerAnimationClass } = useScrollVisibility({
     threshold: 100,
   })

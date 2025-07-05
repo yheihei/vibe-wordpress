@@ -7,7 +7,9 @@ interface HeaderProps {
 
 export function Header({ className = '' }: HeaderProps) {
   return (
-    <header className={`bg-gray-900 border-b-4 border-black sticky top-0 z-[200] ${className}`}>
+    <header
+      className={`bg-gray-900 border-b-4 border-black sticky top-0 z-[200] ${className}`}
+    >
       <div className="container mx-auto px-4 py-4">
         <div className="flex flex-col lg:flex-row justify-between items-center gap-4">
           {/* Logo and Navigation */}

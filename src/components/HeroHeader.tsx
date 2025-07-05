@@ -2,24 +2,60 @@
 
 export default function HeroHeader() {
   return (
-    <section className="relative min-h-screen overflow-hidden crt scanlines" style={{ isolation: 'isolate' }}>
+    <section
+      className="relative min-h-screen overflow-hidden crt scanlines"
+      style={{ isolation: 'isolate' }}
+    >
       {/* Background layers */}
       <div className="absolute inset-0 bg-gradient-to-b from-indigo-900 via-purple-900 to-gray-900"></div>
 
       {/* Pixel rain effect */}
-      <div className="pixel-rain" style={{ left: '5%', animationDelay: '0s' }}></div>
-      <div className="pixel-rain" style={{ left: '15%', animationDelay: '0.5s' }}></div>
-      <div className="pixel-rain" style={{ left: '25%', animationDelay: '1s' }}></div>
-      <div className="pixel-rain" style={{ left: '35%', animationDelay: '1.5s' }}></div>
-      <div className="pixel-rain" style={{ left: '45%', animationDelay: '2s' }}></div>
-      <div className="pixel-rain" style={{ left: '55%', animationDelay: '2.5s' }}></div>
-      <div className="pixel-rain" style={{ left: '65%', animationDelay: '3s' }}></div>
-      <div className="pixel-rain" style={{ left: '75%', animationDelay: '3.5s' }}></div>
-      <div className="pixel-rain" style={{ left: '85%', animationDelay: '4s' }}></div>
-      <div className="pixel-rain" style={{ left: '95%', animationDelay: '4.5s' }}></div>
+      <div
+        className="pixel-rain"
+        style={{ left: '5%', animationDelay: '0s' }}
+      ></div>
+      <div
+        className="pixel-rain"
+        style={{ left: '15%', animationDelay: '0.5s' }}
+      ></div>
+      <div
+        className="pixel-rain"
+        style={{ left: '25%', animationDelay: '1s' }}
+      ></div>
+      <div
+        className="pixel-rain"
+        style={{ left: '35%', animationDelay: '1.5s' }}
+      ></div>
+      <div
+        className="pixel-rain"
+        style={{ left: '45%', animationDelay: '2s' }}
+      ></div>
+      <div
+        className="pixel-rain"
+        style={{ left: '55%', animationDelay: '2.5s' }}
+      ></div>
+      <div
+        className="pixel-rain"
+        style={{ left: '65%', animationDelay: '3s' }}
+      ></div>
+      <div
+        className="pixel-rain"
+        style={{ left: '75%', animationDelay: '3.5s' }}
+      ></div>
+      <div
+        className="pixel-rain"
+        style={{ left: '85%', animationDelay: '4s' }}
+      ></div>
+      <div
+        className="pixel-rain"
+        style={{ left: '95%', animationDelay: '4.5s' }}
+      ></div>
 
       {/* Pixel particles */}
-      <div className="pixel-particle" style={{ left: '10%', animationDelay: '0s' }}></div>
+      <div
+        className="pixel-particle"
+        style={{ left: '10%', animationDelay: '0s' }}
+      ></div>
       <div
         className="pixel-particle"
         style={{ left: '30%', animationDelay: '2s', background: '#00fffc' }}
@@ -28,7 +64,10 @@ export default function HeroHeader() {
         className="pixel-particle"
         style={{ left: '50%', animationDelay: '4s', background: '#fc00ff' }}
       ></div>
-      <div className="pixel-particle" style={{ left: '70%', animationDelay: '6s' }}></div>
+      <div
+        className="pixel-particle"
+        style={{ left: '70%', animationDelay: '6s' }}
+      ></div>
       <div
         className="pixel-particle"
         style={{ left: '90%', animationDelay: '8s', background: '#00ff00' }}
@@ -200,7 +239,9 @@ export default function HeroHeader() {
 
         {/* Instructions */}
         <div className="mt-8 text-center">
-          <p className="font-vt323 text-xl text-gray-400">PRESS ENTER TO START</p>
+          <p className="font-vt323 text-xl text-gray-400">
+            PRESS ENTER TO START
+          </p>
           <p className="font-vt323 text-lg text-gray-500 blinking-cursor">_</p>
         </div>
 
@@ -261,20 +302,30 @@ export default function HeroHeader() {
       </div>
 
       {/* Scroll Indicator */}
-      <div 
+      <div
         className="scroll-indicator"
         onClick={() => {
           window.scrollTo({
             top: window.innerHeight,
-            behavior: 'smooth'
+            behavior: 'smooth',
           })
         }}
       >
         <div className="text-center">
           <div className="flex flex-col items-center gap-1">
             <span className="text-green-400 text-2xl animate-pulse">▼</span>
-            <span className="text-green-400 text-xl animate-pulse" style={{ animationDelay: '0.2s' }}>▼</span>
-            <span className="text-green-400 text-lg animate-pulse" style={{ animationDelay: '0.4s' }}>▼</span>
+            <span
+              className="text-green-400 text-xl animate-pulse"
+              style={{ animationDelay: '0.2s' }}
+            >
+              ▼
+            </span>
+            <span
+              className="text-green-400 text-lg animate-pulse"
+              style={{ animationDelay: '0.4s' }}
+            >
+              ▼
+            </span>
           </div>
         </div>
       </div>

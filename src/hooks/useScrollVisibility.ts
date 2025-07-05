@@ -7,9 +7,9 @@ interface UseScrollVisibilityProps {
   onVisibilityChange?: (isVisible: boolean) => void
 }
 
-export function useScrollVisibility({ 
+export function useScrollVisibility({
   threshold = 100,
-  onVisibilityChange 
+  onVisibilityChange,
 }: UseScrollVisibilityProps = {}) {
   const [isHeaderMounted, setIsHeaderMounted] = useState(false)
   const [headerAnimationClass, setHeaderAnimationClass] = useState('')
@@ -18,10 +18,10 @@ export function useScrollVisibility({
   const handleScroll = useCallback(() => {
     const scrollY = window.scrollY
     const heroHeight = window.innerHeight // Full viewport height for hero
-    
+
     // Check if scrolled past hero section
     const pastHero = scrollY > heroHeight - threshold
-    
+
     if (pastHero && !hasScrolledPastHero) {
       // Show header when scrolling past hero
       setHasScrolledPastHero(true)
@@ -33,7 +33,7 @@ export function useScrollVisibility({
       setHasScrolledPastHero(false)
       setHeaderAnimationClass('header-hide')
       onVisibilityChange?.(false)
-      
+
       // Remove header from DOM after animation completes
       setTimeout(() => {
         setIsHeaderMounted(false)
@@ -59,7 +59,7 @@ export function useScrollVisibility({
     handleScroll()
 
     window.addEventListener('scroll', optimizedScroll, { passive: true })
-    
+
     return () => {
       window.removeEventListener('scroll', optimizedScroll)
       if (rafId) {
