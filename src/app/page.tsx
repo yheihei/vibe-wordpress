@@ -38,7 +38,7 @@ export default async function HomePage() {
       {/* Hero Header */}
       <HeroHeader />
 
-      <div className="space-y-20 px-4 md:px-8 lg:px-12">
+      <div className="space-y-20 px-4 md:px-8 lg:px-12 pt-20 md:pt-32">
 
       {/* Latest Posts */}
       <div className="animate-fade-in">
