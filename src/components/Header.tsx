@@ -39,7 +39,7 @@ export function Header({ className = '' }: HeaderProps) {
                 </li>
                 <li>
                   <Link
-                    href="/pages/about"
+                    href="/pages/about-me"
                     className="hover:text-yellow-200 transition-colors"
                   >
                     About
