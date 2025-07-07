@@ -55,6 +55,16 @@ export function Header({ className = '' }: HeaderProps) {
                     Qiita
                   </a>
                 </li>
+                <li>
+                  <a
+                    href="https://x.com/yhei_hei"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-yellow-200 transition-colors"
+                  >
+                    X
+                  </a>
+                </li>
               </ul>
             </nav>
           </div>
