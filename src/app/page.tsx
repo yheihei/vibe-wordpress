@@ -41,7 +41,7 @@ export default async function HomePage() {
       {/* Hero Header */}
       <HeroHeader />
 
-      <div className="container mx-auto px-4 py-8 space-y-20">
+      <div className="container mx-auto px-4 pt-[7.5rem] pb-8 space-y-[7.5rem]">
         {/* Game Section */}
         {gamePosts.length > 0 && (
           <div className="animate-fade-in">
