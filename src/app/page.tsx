@@ -11,19 +11,22 @@ import HeroHeader from '@/components/HeroHeader'
 export const revalidate = 300 // 5分毎にISR
 
 export default async function HomePage() {
-  let posts, categories, portfolioPosts
+  let posts, categories, portfolioPosts, gamePosts
 
   try {
     // 並列でデータを取得してパフォーマンスを向上
-    const [latestResult, categoriesData, portfolioResult] = await Promise.all([
-      fetchLatestPosts(6), // 2x3グリッド用に6記事
-      fetchCategories(),
-      fetchPostsByCategoryWithChildren('portfolio', 6, 1),
-    ])
+    const [latestResult, categoriesData, portfolioResult, gameResult] =
+      await Promise.all([
+        fetchLatestPosts(6), // 2x3グリッド用に6記事
+        fetchCategories(),
+        fetchPostsByCategoryWithChildren('portfolio', 6, 1),
+        fetchPostsByCategoryWithChildren('game', 6, 1),
+      ])
 
     posts = latestResult.posts
     categories = categoriesData
     portfolioPosts = portfolioResult.posts
+    gamePosts = gameResult.posts
   } catch (error) {
     console.error('Failed to fetch data:', error)
     return (
@@ -39,6 +42,78 @@ export default async function HomePage() {
       <HeroHeader />
 
       <div className="container mx-auto px-4 py-8 space-y-20">
+        {/* Game Section */}
+        {gamePosts.length > 0 && (
+          <div className="animate-fade-in">
+            <h2 className="font-press-start text-3xl md:text-4xl text-yellow-300 mb-8 text-center text-shadow-sm">
+              Games
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {gamePosts.map((post) => {
+                const featuredImage = getFeaturedImageUrl(post)
+                const postCategories = getPostCategories(post)
+                const mainCategory = postCategories[0]
+
+                return (
+                  <div
+                    key={post.id}
+                    className="bg-slate-800 text-white border-4 border-black p-3 sm:p-4 shadow-[8px_8px_0_0_#1e293b] hover:shadow-[10px_10px_0_0_#1e293b] transition-all duration-200 h-full flex flex-col"
+                  >
+                    {featuredImage && (
+                      <Link href={`/posts/${post.slug}`}>
+                        <img
+                          src={featuredImage}
+                          alt={post.title.rendered.replace(/<[^>]*>/g, '')}
+                          className="w-full aspect-video object-cover border-2 border-black mb-4 cursor-pointer hover:opacity-90 transition-opacity"
+                        />
+                      </Link>
+                    )}
+                    <div className="flex-grow flex flex-col">
+                      {mainCategory && (
+                        <Link
+                          href={`/category/${mainCategory.slug}`}
+                          className="text-sm text-green-400 font-bold uppercase hover:underline"
+                        >
+                          {mainCategory.name}
+                        </Link>
+                      )}
+                      <h2 className="font-gothic text-xl md:text-2xl text-yellow-300 my-2 text-shadow-sm flex-grow">
+                        <Link
+                          href={`/posts/${post.slug}`}
+                          className="hover:text-yellow-200"
+                          dangerouslySetInnerHTML={{
+                            __html: post.title.rendered,
+                          }}
+                        />
+                      </h2>
+                      <div className="mt-auto pt-4 border-t-2 border-dashed border-gray-600 flex justify-between items-center text-sm text-gray-400">
+                        <span>
+                          {new Date(post.date).toLocaleDateString('ja-JP')}
+                        </span>
+                        <Link
+                          href={`/posts/${post.slug}`}
+                          className="font-bold text-green-400 hover:text-green-300"
+                        >
+                          READ &gt;
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            <div className="text-center mt-12">
+              <Link
+                href="/category/game"
+                className="font-press-start text-lg bg-purple-500 text-black px-6 py-3 border-4 border-black shadow-[6px_6px_0_0_#000] hover:shadow-none hover:bg-purple-400 active:translate-x-1 active:translate-y-1 transition-all transform"
+              >
+                View All Games
+              </Link>
+            </div>
+          </div>
+        )}
+
         {/* Latest Posts */}
         <div className="animate-fade-in">
           <h2 className="font-press-start text-3xl md:text-4xl text-yellow-300 mb-8 text-center text-shadow-sm">
