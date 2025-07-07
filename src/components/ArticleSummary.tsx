@@ -1,11 +1,9 @@
 type ArticleSummaryProps = {
-  summary: string
   readingTime: number
   wordCount: number
 }
 
 export function ArticleSummary({
-  summary,
   readingTime,
   wordCount,
 }: ArticleSummaryProps) {
@@ -25,10 +23,6 @@ export function ArticleSummary({
           <dd className="text-white inline">
             {wordCount.toLocaleString()}文字
           </dd>
-        </div>
-        <div>
-          <dt className="text-gray-400">概要：</dt>
-          <dd className="text-gray-300 mt-1">{summary}</dd>
         </div>
       </dl>
     </div>

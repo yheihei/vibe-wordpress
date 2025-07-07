@@ -20,7 +20,6 @@ import { RelatedPosts } from '@/components/RelatedPosts'
 import { ShareButton } from '@/components/ShareButton'
 import {
   addHeadingIds,
-  extractSummary,
   calculateReadingTime,
   getWordCount,
 } from '@/lib/content-utils'
@@ -88,7 +87,6 @@ export default async function PostPage({ params }: Props) {
   const processedContent = addHeadingIds(post.content.rendered)
   const readingTime = calculateReadingTime(post.content.rendered)
   const wordCount = getWordCount(post.content.rendered)
-  const summary = extractSummary(post.content.rendered, 200)
 
   // 関連記事を取得（同じカテゴリーの記事）
   let relatedPosts: Post[] = []
@@ -155,11 +153,7 @@ export default async function PostPage({ params }: Props) {
             </figure>
           )}
 
-          <ArticleSummary
-            summary={summary}
-            readingTime={readingTime}
-            wordCount={wordCount}
-          />
+          <ArticleSummary readingTime={readingTime} wordCount={wordCount} />
 
           <TableOfContents content={processedContent} />
 
