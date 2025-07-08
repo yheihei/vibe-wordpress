@@ -45,7 +45,7 @@ export default async function HomePage() {
         {/* Game Section */}
         {gamePosts.length > 0 && (
           <div className="animate-fade-in">
-            <h2 className="font-press-start text-3xl md:text-4xl text-yellow-300 mb-8 text-center text-shadow-sm">
+            <h2 className="font-press-start text-3xl md:text-5xl text-yellow-300 mb-8 text-center text-shadow-sm">
               Games
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -106,7 +106,7 @@ export default async function HomePage() {
             <div className="text-center mt-12">
               <Link
                 href="/category/game"
-                className="font-press-start text-lg bg-purple-500 text-black px-6 py-3 border-4 border-black shadow-[6px_6px_0_0_#000] hover:shadow-none hover:bg-purple-400 active:translate-x-1 active:translate-y-1 transition-all transform"
+                className="font-press-start text-sm sm:text-lg bg-purple-500 text-black px-4 sm:px-6 py-3 border-4 border-black shadow-[6px_6px_0_0_#000] hover:shadow-none hover:bg-purple-400 active:translate-x-1 active:translate-y-1 transition-all transform inline-block"
               >
                 View All Games
               </Link>
@@ -116,8 +116,8 @@ export default async function HomePage() {
 
         {/* Latest Posts */}
         <div className="animate-fade-in">
-          <h2 className="font-press-start text-3xl md:text-4xl text-yellow-300 mb-8 text-center text-shadow-sm">
-            Latest Transmissions
+          <h2 className="font-press-start text-3xl md:text-5xl text-yellow-300 mb-8 text-center text-shadow-sm">
+            Latests
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {posts.map((post) => {
@@ -182,7 +182,7 @@ export default async function HomePage() {
             <div className="text-center mt-12">
               <Link
                 href="/archive"
-                className="font-press-start text-lg bg-green-500 text-black px-6 py-3 border-4 border-black shadow-[6px_6px_0_0_#000] hover:shadow-none hover:bg-green-400 active:translate-x-1 active:translate-y-1 transition-all transform"
+                className="font-press-start text-sm sm:text-lg bg-green-500 text-black px-4 sm:px-6 py-3 border-4 border-black shadow-[6px_6px_0_0_#000] hover:shadow-none hover:bg-green-400 active:translate-x-1 active:translate-y-1 transition-all transform inline-block"
               >
                 View All Posts
               </Link>
@@ -193,7 +193,7 @@ export default async function HomePage() {
         {/* Portfolio Section */}
         {portfolioPosts.length > 0 && (
           <div className="animate-fade-in">
-            <h2 className="font-press-start text-3xl md:text-4xl text-yellow-300 mb-8 text-center text-shadow-sm">
+            <h2 className="font-press-start text-3xl md:text-5xl text-yellow-300 mb-8 text-center text-shadow-sm">
               Portfolio
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -254,7 +254,7 @@ export default async function HomePage() {
             <div className="text-center mt-12">
               <Link
                 href="/category/portfolio"
-                className="font-press-start text-lg bg-blue-500 text-black px-6 py-3 border-4 border-black shadow-[6px_6px_0_0_#000] hover:shadow-none hover:bg-blue-400 active:translate-x-1 active:translate-y-1 transition-all transform"
+                className="font-press-start text-sm sm:text-lg bg-blue-500 text-black px-4 sm:px-6 py-3 border-4 border-black shadow-[6px_6px_0_0_#000] hover:shadow-none hover:bg-blue-400 active:translate-x-1 active:translate-y-1 transition-all transform inline-block"
               >
                 View All Portfolio
               </Link>
@@ -265,7 +265,7 @@ export default async function HomePage() {
         {/* Categories */}
         {categories.length > 0 && (
           <div className="animate-fade-in">
-            <h2 className="font-press-start text-xl md:text-2xl text-yellow-300 mb-6 text-center text-shadow-sm">
+            <h2 className="font-press-start text-xl md:text-4xl text-yellow-300 mb-6 text-center text-shadow-sm">
               Categories
             </h2>
             <div className="flex flex-wrap justify-center gap-2">

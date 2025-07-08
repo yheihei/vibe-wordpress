@@ -245,14 +245,6 @@ export default function HeroHeader() {
           <p className="font-vt323 text-lg text-gray-500 blinking-cursor">_</p>
         </div>
 
-        {/* Developer signature */}
-        <div className="absolute bottom-20 left-8 font-vt323 text-lg text-green-400 z-[101]">
-          <div>Developed by Y-Game</div>
-        </div>
-
-        <div className="absolute bottom-20 right-8 font-vt323 text-lg text-yellow-300 z-[101]">
-          <div>© 2025 VLCNP STORY</div>
-        </div>
       </div>
 
       {/* Screenshots preview */}
