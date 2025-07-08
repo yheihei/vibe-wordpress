@@ -28,7 +28,7 @@ cp .env.local.example .env.local
 
 必須の環境変数：
 
-- `WORDPRESS_API_URL`: WordPress REST APIのベースURL（例：`https://blog.example.com/wp-json/wp/v2`）
+- `WORDPRESS_API_URL`: WordPress REST APIのベースURL（例：`https://yhei-web-design.com/wp-json/wp/v2`）
 
 オプションの環境変数（必要に応じて設定）：
 
