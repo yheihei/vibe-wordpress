@@ -18,6 +18,7 @@ import { TableOfContents } from '@/components/TableOfContents'
 import { ArticleSummary } from '@/components/ArticleSummary'
 import { RelatedPosts } from '@/components/RelatedPosts'
 import { ShareButton } from '@/components/ShareButton'
+import { StickyShareButtons } from '@/components/StickyShareButtons'
 import {
   addHeadingIds,
   calculateReadingTime,
@@ -119,46 +120,53 @@ export default async function PostPage({ params }: Props) {
       />
       <JsonLd data={generateBreadcrumbSchema(breadcrumbItems)} />
       <main className="bg-slate-800 text-white border-4 border-black p-4 sm:p-6 shadow-[8px_8px_0_0_#1e293b]">
-        <article className="max-w-2xl mx-auto">
-          <header className="border-b-4 border-dashed border-gray-600 pb-4 mb-4">
-            {mainCategory && (
-              <Link
-                href={`/category/${mainCategory.slug}`}
-                className="text-green-400 font-bold uppercase hover:underline"
-                aria-label={`カテゴリー: ${mainCategory.name}`}
-              >
-                {mainCategory.name}
-              </Link>
-            )}
-            <h1
-              className="font-gothic text-3xl md:text-4xl text-yellow-300 my-4 text-shadow-sm"
-              dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+        <div className="max-w-4xl mx-auto relative">
+          <aside className="hidden lg:block">
+            <StickyShareButtons
+              url={postUrl}
+              title={post.title.rendered.replace(/<[^>]*>/g, '')}
             />
-            <time className="text-gray-400" dateTime={post.date}>
-              {new Date(post.date).toLocaleDateString('ja-JP', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-              })}
-            </time>
-          </header>
-
-          {featuredImage && (
-            <figure className="my-6">
-              <img
-                src={featuredImage}
-                alt={post.title.rendered.replace(/<[^>]*>/g, '')}
-                className="w-full object-cover border-4 border-black"
+          </aside>
+          <article className="max-w-2xl mx-auto">
+            <header className="border-b-4 border-dashed border-gray-600 pb-4 mb-4">
+              {mainCategory && (
+                <Link
+                  href={`/category/${mainCategory.slug}`}
+                  className="text-green-400 font-bold uppercase hover:underline"
+                  aria-label={`カテゴリー: ${mainCategory.name}`}
+                >
+                  {mainCategory.name}
+                </Link>
+              )}
+              <h1
+                className="font-gothic text-3xl md:text-4xl text-yellow-300 my-4 text-shadow-sm"
+                dangerouslySetInnerHTML={{ __html: post.title.rendered }}
               />
-            </figure>
-          )}
+              <time className="text-gray-400" dateTime={post.date}>
+                {new Date(post.date).toLocaleDateString('ja-JP', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit',
+                })}
+              </time>
+            </header>
 
-          <ArticleSummary readingTime={readingTime} wordCount={wordCount} />
+            {featuredImage && (
+              <figure className="my-6">
+                <img
+                  src={featuredImage}
+                  alt={post.title.rendered.replace(/<[^>]*>/g, '')}
+                  className="w-full object-cover border-4 border-black"
+                />
+              </figure>
+            )}
 
-          <TableOfContents content={processedContent} />
+            <ArticleSummary readingTime={readingTime} wordCount={wordCount} />
 
-          <section
-            className="prose prose-invert prose-lg max-w-none font-gothic
+            <TableOfContents content={processedContent} />
+
+            <section
+              className="prose prose-invert prose-lg max-w-none font-gothic
               prose-headings:font-gothic prose-headings:text-yellow-300 
               prose-h2:text-2xl prose-h3:text-xl prose-h4:text-lg
               prose-h2:mt-12 prose-h3:mt-10 prose-h4:mt-8
@@ -176,17 +184,18 @@ export default async function PostPage({ params }: Props) {
               [&_ul+h2]:!mt-16 [&_ul+h3]:!mt-14 [&_ul+h4]:!mt-12
               [&_ol+h2]:!mt-16 [&_ol+h3]:!mt-14 [&_ol+h4]:!mt-12
               [&_blockquote+h2]:!mt-16 [&_blockquote+h3]:!mt-14 [&_blockquote+h4]:!mt-12"
-            dangerouslySetInnerHTML={{ __html: processedContent }}
-            aria-label="記事本文"
-          />
+              dangerouslySetInnerHTML={{ __html: processedContent }}
+              aria-label="記事本文"
+            />
 
-          <ShareButton
-            url={postUrl}
-            title={post.title.rendered.replace(/<[^>]*>/g, '')}
-          />
+            <ShareButton
+              url={postUrl}
+              title={post.title.rendered.replace(/<[^>]*>/g, '')}
+            />
 
-          <RelatedPosts posts={relatedPosts} currentPostId={post.id} />
-        </article>
+            <RelatedPosts posts={relatedPosts} currentPostId={post.id} />
+          </article>
+        </div>
       </main>
     </>
   )
