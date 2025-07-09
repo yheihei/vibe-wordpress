@@ -1,6 +1,8 @@
 import { fetchPageBySlug, getFeaturedImageUrl } from '@/lib/wp'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import { ShareButton } from '@/components/ShareButton'
+import { siteConfig } from '@/lib/metadata'
 
 export const dynamic = 'force-static'
 export const revalidate = 300
@@ -36,6 +38,7 @@ export default async function Page({ params }: PageProps) {
   }
 
   const featuredImage = getFeaturedImageUrl(page)
+  const pageUrl = `${siteConfig.url}/pages/${slug}`
 
   return (
     <div className="bg-slate-800 text-white border-4 border-black p-4 sm:p-6 shadow-[8px_8px_0_0_#1e293b]">
@@ -75,6 +78,11 @@ export default async function Page({ params }: PageProps) {
             [&_ol+h2]:!mt-16 [&_ol+h3]:!mt-14 [&_ol+h4]:!mt-12
             [&_blockquote+h2]:!mt-16 [&_blockquote+h3]:!mt-14 [&_blockquote+h4]:!mt-12"
           dangerouslySetInnerHTML={{ __html: page.content.rendered }}
+        />
+
+        <ShareButton
+          url={pageUrl}
+          title={page.title.rendered.replace(/<[^>]*>/g, '')}
         />
       </article>
     </div>

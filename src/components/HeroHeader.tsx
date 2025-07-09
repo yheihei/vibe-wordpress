@@ -244,7 +244,6 @@ export default function HeroHeader() {
           </p>
           <p className="font-vt323 text-lg text-gray-500 blinking-cursor">_</p>
         </div>
-
       </div>
 
       {/* Screenshots preview */}

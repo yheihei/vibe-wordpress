@@ -15,6 +15,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 思考する際は英語で考えてください
 
 ## コーディング原則
+
 - YAGNI（You Aren't Gonna Need It）：今必要じゃない機能は作らない
 - KISS: 複雑な解決策より単純な解決策を優先
 
@@ -110,6 +111,7 @@ src/
 ### 画像ホスト設定
 
 `next.config.mjs` で許可されている画像ドメイン:
+
 - `yhei-web-design.com`
 - `secure.gravatar.com`
 - `picsum.photos` (開発用プレースホルダー)
