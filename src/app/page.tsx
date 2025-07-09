@@ -48,7 +48,7 @@ export default async function HomePage() {
             <h2 className="font-press-start text-3xl md:text-5xl text-yellow-300 mb-8 text-center text-shadow-sm">
               Games
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="flex flex-wrap justify-center gap-8">
               {gamePosts.map((post) => {
                 const featuredImage = getFeaturedImageUrl(post)
                 const postCategories = getPostCategories(post)
@@ -57,7 +57,7 @@ export default async function HomePage() {
                 return (
                   <div
                     key={post.id}
-                    className="bg-slate-800 text-white border-4 border-black p-3 sm:p-4 shadow-[8px_8px_0_0_#1e293b] hover:shadow-[10px_10px_0_0_#1e293b] transition-all duration-200 h-full flex flex-col"
+                    className="bg-slate-800 text-white border-4 border-black p-3 sm:p-4 shadow-[8px_8px_0_0_#1e293b] hover:shadow-[10px_10px_0_0_#1e293b] transition-all duration-200 h-full flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.33rem)] max-w-md"
                   >
                     {featuredImage && (
                       <Link href={`/posts/${post.slug}`}>
@@ -119,7 +119,7 @@ export default async function HomePage() {
           <h2 className="font-press-start text-3xl md:text-5xl text-yellow-300 mb-8 text-center text-shadow-sm">
             Latests
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="flex flex-wrap justify-center gap-8">
             {posts.map((post) => {
               const featuredImage = getFeaturedImageUrl(post)
               const postCategories = getPostCategories(post)
@@ -128,7 +128,7 @@ export default async function HomePage() {
               return (
                 <div
                   key={post.id}
-                  className="bg-slate-800 text-white border-4 border-black p-3 sm:p-4 shadow-[8px_8px_0_0_#1e293b] hover:shadow-[10px_10px_0_0_#1e293b] transition-all duration-200 h-full flex flex-col"
+                  className="bg-slate-800 text-white border-4 border-black p-3 sm:p-4 shadow-[8px_8px_0_0_#1e293b] hover:shadow-[10px_10px_0_0_#1e293b] transition-all duration-200 h-full flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.33rem)] max-w-md"
                 >
                   {featuredImage && (
                     <Link href={`/posts/${post.slug}`}>
@@ -196,7 +196,7 @@ export default async function HomePage() {
             <h2 className="font-press-start text-3xl md:text-5xl text-yellow-300 mb-8 text-center text-shadow-sm">
               Portfolio
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="flex flex-wrap justify-center gap-8">
               {portfolioPosts.map((post) => {
                 const featuredImage = getFeaturedImageUrl(post)
                 const postCategories = getPostCategories(post)
@@ -205,7 +205,7 @@ export default async function HomePage() {
                 return (
                   <div
                     key={post.id}
-                    className="bg-slate-800 text-white border-4 border-black p-3 sm:p-4 shadow-[8px_8px_0_0_#1e293b] hover:shadow-[10px_10px_0_0_#1e293b] transition-all duration-200 h-full flex flex-col"
+                    className="bg-slate-800 text-white border-4 border-black p-3 sm:p-4 shadow-[8px_8px_0_0_#1e293b] hover:shadow-[10px_10px_0_0_#1e293b] transition-all duration-200 h-full flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.33rem)] max-w-md"
                   >
                     {featuredImage && (
                       <Link href={`/posts/${post.slug}`}>
